@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-"Annelies Schreib-Spass" is a German spelling game for children built with SvelteKit 2 and Svelte 5. Children type letters (via on-screen QWERTZ keyboard or physical keyboard) to spell German words shown with emoji hints. The game provides visual feedback (green/red key flashes, shake animations) and celebrates success with confetti.
+"Annelies Schreib-Spass" is a German spelling game for children built with SvelteKit 2 and Svelte 5. Children type letters (via on-screen QWERTZ keyboard or physical keyboard) to spell German words shown with emoji hints. The game provides visual feedback (green/red key flashes, shake animations) and celebrates success with dancing letters and confetti.
 
 ## Commands
 
@@ -18,49 +18,89 @@ pnpm test         # Run all tests once
 pnpm test:unit    # Run tests in watch mode
 ```
 
-## Testing
+## Project Structure
 
-Vitest with two test projects:
-
-- **client**: Browser tests using Playwright (`*.svelte.{test,spec}.ts`) - for Svelte component testing
-- **server**: Node tests (`*.{test,spec}.ts`, excluding `.svelte.*`) - for pure logic
-
-Test config requires assertions (`expect.requireAssertions: true`).
+```
+src/
+├── lib/
+│   ├── animations/
+│   │   └── gsap.ts               # GSAP animation functions
+│   ├── components/
+│   │   ├── admin/
+│   │   │   ├── WordForm.svelte   # Add/edit word form
+│   │   │   └── WordList.svelte   # Display word list
+│   │   ├── game/
+│   │   │   ├── GameBoard.svelte  # Emoji + word display
+│   │   │   ├── LetterSlot.svelte # Single letter slot
+│   │   │   ├── ProgressBar.svelte# Progress header
+│   │   │   └── WordSlots.svelte  # Letter slots container
+│   │   └── keyboard/
+│   │       ├── Keyboard.svelte   # QWERTZ keyboard
+│   │       └── KeyButton.svelte  # Single key
+│   ├── data/
+│   │   └── words.json            # Word list (editable via admin)
+│   ├── stores/
+│   │   ├── game.svelte.ts        # Game state with context
+│   │   └── words.svelte.ts       # Words store
+│   ├── data.ts                   # Keyboard layout constants
+│   └── types.ts                  # TypeScript interfaces
+├── routes/
+│   ├── +page.svelte              # Main game page
+│   ├── +page.server.ts           # Load words from JSON
+│   └── admin/
+│       ├── +page.svelte          # Admin UI
+│       └── +page.server.ts       # CRUD actions for words
+└── app.css                       # Tailwind + base styles
+```
 
 ## Architecture
 
 ### State Management
 
-Game state is managed via a Svelte 5 runes-based `Game` class (`src/lib/game.svelte.ts`):
+Game state uses Svelte 5 runes with context pattern (`src/lib/stores/game.svelte.ts`):
 
-- Uses `$state()` for reactive properties (index, input, shakeIndex, key feedback)
-- Uses `$derived()` for computed values (current word, completion status, progress)
-- Instantiated via `createGame()` factory
+- `$state()` for reactive properties (index, input, shakeIndex, celebrationPhase)
+- Getter functions for derived values (word, emoji, isComplete, progress)
+- Context API for component access: `setGameContext()` / `getGameContext()`
 
-### Data
+### Animations (GSAP)
 
-Word list in `src/lib/data.ts` - array of `{word: string, emoji: string}` objects. All words are uppercase German.
+All animations are centralized in `src/lib/animations/gsap.ts`:
 
-### UI Components
+- `shakeElement()` - Error shake on wrong input
+- `dropLetter()` - Letter drop animation on correct input
+- `floatEmoji()` - Floating emoji animation
+- `keySuccess()` / `keyError()` - Key feedback animations
+- `celebrateLetter()` - Individual letter dance
+- `celebrateAll()` - Full celebration sequence with confetti
+- `triggerConfetti()` - Confetti effect
 
-Single page app with one route (`+page.svelte`):
+### Success Flow
 
-- German QWERTZ keyboard layout with umlauts (Ü, Ö, Ä)
-- bits-ui for Dialog component
-- canvas-confetti for celebration effects
-- lucide-svelte for icons
-- Glassmorphism design with Tailwind CSS 4
+1. Word complete → `game.startCelebration()`
+2. Letters dance and blink with colors (GSAP timeline)
+3. Confetti triggered
+4. After animation → `game.endCelebration()` → next word
 
-### Styling
+### Data Management
 
-- Tailwind CSS 4 with `@tailwindcss/vite` plugin
-- Custom animations defined in `src/app.css` (shake, letter-drop, float, key-success, key-error)
-- Nunito font family
+- Words stored in `src/lib/data/words.json`
+- Loaded server-side via `+page.server.ts`
+- Admin page at `/admin` for CRUD operations
+- Form actions handle add/delete/update
+
+## Routes
+
+- `/` - Main game
+- `/admin` - Word list management (no auth)
 
 ## Tech Stack
 
 - SvelteKit 2 with Svelte 5 (runes)
 - TypeScript
+- GSAP for animations
 - Tailwind CSS 4
+- canvas-confetti for celebration effects
+- lucide-svelte for icons
 - Vitest + Playwright for testing
 - ESLint + Prettier for linting
