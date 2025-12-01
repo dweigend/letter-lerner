@@ -3,6 +3,13 @@ export type WordItem = {
 	emoji: string;
 };
 
+// German QWERTZ keyboard layout with umlauts
+export const KEYBOARD_ROWS = [
+	'QWERTZUIOPÜ'.split(''),
+	'ASDFGHJKLÖÄ'.split(''),
+	'YXCVBNM'.split('')
+] as const;
+
 export const WORDS: WordItem[] = [
 	{ word: 'ANNELIE', emoji: '👧' },
 	{ word: 'HAUS', emoji: '🏠' },

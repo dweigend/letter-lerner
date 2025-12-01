@@ -1,9 +1,16 @@
 import { WORDS } from './data';
 
+const SHAKE_DURATION_MS = 500;
+const KEY_FEEDBACK_DURATION_MS = 400;
+
 export class Game {
 	index = $state(0);
 	input = $state<string[]>([]);
 	shakeIndex = $state<number | null>(null);
+
+	// Track keyboard feedback for visual animation
+	lastPressedKey = $state<string | null>(null);
+	lastKeyCorrect = $state<boolean | null>(null);
 
 	// Derived state for the current target word and emoji
 	currentLevel = $derived(WORDS[this.index]);
@@ -26,14 +33,9 @@ export class Game {
 	}
 
 	nextLevel() {
-		if (this.index < WORDS.length - 1) {
-			this.index += 1;
-			this.resetInput();
-		} else {
-			// Restart game or show final screen (for now loop or stay)
-			this.index = 0;
-			this.resetInput();
-		}
+		// Loop back to start if at end, otherwise advance
+		this.index = this.index < WORDS.length - 1 ? this.index + 1 : 0;
+		this.resetInput();
 	}
 
 	handleInput(char: string) {
@@ -44,25 +46,35 @@ export class Game {
 		// Find the first empty slot
 		const firstEmptyIndex = this.input.findIndex((c) => c === '');
 
-		if (firstEmptyIndex === -1) return; // Word full but not confirmed? (Shouldn't happen if isComplete works)
+		if (firstEmptyIndex === -1) return;
 
 		// Check if the input matches the target character at that position
 		const targetChar = this.word[firstEmptyIndex];
 
+		// Set the pressed key for visual feedback
+		this.lastPressedKey = upperChar;
+
 		if (upperChar === targetChar) {
-			// Correct! Fill the slot
+			// Correct! Fill the slot and show green flash
 			const newInput = [...this.input];
 			newInput[firstEmptyIndex] = upperChar;
 			this.input = newInput;
 			this.shakeIndex = null;
+			this.lastKeyCorrect = true;
 		} else {
-			// Incorrect! Shake effect
+			// Incorrect! Shake effect and red flash
 			this.shakeIndex = firstEmptyIndex;
-			// Reset shake after animation duration (approx 500ms)
+			this.lastKeyCorrect = false;
 			setTimeout(() => {
 				this.shakeIndex = null;
-			}, 500);
+			}, SHAKE_DURATION_MS);
 		}
+
+		// Clear key feedback after animation completes
+		setTimeout(() => {
+			this.lastPressedKey = null;
+			this.lastKeyCorrect = null;
+		}, KEY_FEEDBACK_DURATION_MS);
 	}
 }
 
