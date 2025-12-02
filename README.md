@@ -112,8 +112,6 @@ Built with modern web technologies and best practices:
 - Type-safe with TypeScript
 - Component-driven architecture with bits-ui
 
-See [CLAUDE.md](CLAUDE.md) for development guidelines and architecture details.
-
 ## License
 
 MIT
