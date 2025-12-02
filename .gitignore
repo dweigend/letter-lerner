@@ -1,5 +1,13 @@
 node_modules
 
+# Archive (development notes)
+archive/
+
+# Claude Code (personal settings)
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+
 # Output
 .output
 .vercel

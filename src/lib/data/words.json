@@ -58,5 +58,13 @@
 	{
 		"word": "GELD",
 		"emoji": "🪙"
+	},
+	{
+		"word": "BETT",
+		"emoji": "🛌"
+	},
+	{
+		"word": "HANDY",
+		"emoji": "📱"
 	}
 ]

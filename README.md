@@ -74,6 +74,10 @@ All animation parameters are configurable in `app.css`:
 - `/` - Main spelling game
 - `/admin` - Add/remove words from the word list
 
+## AI/LLM Configuration
+
+See [docs/AGENTS.md](docs/AGENTS.md) for coding assistant configuration.
+
 ## License
 
 MIT
