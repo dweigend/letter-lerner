@@ -1,4 +1,4 @@
-# Annelies Schreib-Spass
+# Letter-Lerner
 
 A German spelling learning app for my daughter Annelie, built with SvelteKit 2 and Svelte 5.
 

@@ -16,7 +16,7 @@
 <header class="progress-header">
 	<div class="progress-title">
 		<Star class="h-8 w-8 fill-yellow-400 text-yellow-400" />
-		<h1>Annelies Schreib-Spass</h1>
+		<h1>Letter-Lerner</h1>
 	</div>
 
 	<div class="progress-info">
