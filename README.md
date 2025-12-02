@@ -1,14 +1,34 @@
 # Annelies Schreib-Spass
 
-A German spelling game for children built with SvelteKit 2 and Svelte 5.
+A German spelling learning app for my daughter Annelie, built with SvelteKit 2 and Svelte 5.
 
-## Features
+## About This Project
 
-- Type letters via on-screen QWERTZ keyboard or physical keyboard
+My daughter Annelie is learning to write. To support her learning journey, I'm developing this simple spelling program that we'll grow together over time.
+
+**Important:** This game is designed to be played **together with parents**, not alone. Parents help children find the letters on the keyboard and guide them through the learning process.
+
+## Current Features (Level 1)
+
+- Emoji-based word learning: An emoji appears, child types the matching word
+- QWERTZ keyboard (on-screen + physical keyboard support)
 - Visual feedback: keys flash green (correct) or red (wrong)
-- Minimal UI: letters appear above simple underlines
-- Celebration animation with bouncing letters and confetti
+- Minimal, distraction-free UI
+- Celebration animations with bouncing letters and confetti
 - Admin panel to manage word list
+
+## Planned Future Levels
+
+The app is intentionally kept simple now, but I plan to continuously expand it with:
+
+- **AI & Voice Output** - Spoken letter and word assistance
+- **Automatic Spelling Help** - Smart guidance for difficult words
+- **Targeted Support** - Adaptive help based on learning progress
+- **Progress Tracking** - Automatic monitoring of learning achievements
+- **Keyboard Orientation** - Mini-levels to improve keyboard familiarity
+- **Sentence Writing** - Progress from words to simple sentences
+- **Listening & Writing** - Audio-based spelling exercises
+- **Reading Practice** - Building reading comprehension skills
 
 ## Quick Start
 
@@ -35,24 +55,26 @@ pnpm dev
 ## Tech Stack
 
 - **Framework:** SvelteKit 2 + Svelte 5 (runes)
-- **Styling:** Tailwind CSS 4 + bits-ui
-- **Animations:** CSS animations + GSAP (minimal)
+- **Styling:** Tailwind CSS 4 + bits-ui (headless components)
+- **Animations:** CSS-first animations (no heavy dependencies)
 - **Effects:** canvas-confetti
 
 ## Project Structure
 
 ```
 src/
-├── app.css                 # All styles + animation config
+├── app.css                    # All styles + animation config
 ├── lib/
-│   ├── animations/gsap.ts  # floatEmoji + confetti only
+│   ├── animations/confetti.ts # Celebration confetti
 │   ├── components/
-│   │   ├── game/           # GameBoard, LetterSlot, WordSlots
-│   │   └── keyboard/       # Keyboard, KeyButton
-│   └── stores/             # Game state (Svelte 5 runes)
+│   │   ├── game/              # GameBoard, LetterSlot, WordSlots
+│   │   └── keyboard/          # Keyboard, KeyButton
+│   ├── config/                # Animation timings
+│   ├── stores/                # Game state (Svelte 5 runes)
+│   └── utils/                 # Shared utilities
 └── routes/
-    ├── +page.svelte        # Main game
-    └── admin/              # Word management
+    ├── +page.svelte           # Main game
+    └── admin/                 # Word management
 ```
 
 ## Animation Configuration
@@ -74,10 +96,28 @@ All animation parameters are configurable in `app.css`:
 - `/` - Main spelling game
 - `/admin` - Add/remove words from the word list
 
-## AI/LLM Configuration
+## Philosophy
 
-See [docs/AGENTS.md](docs/AGENTS.md) for coding assistant configuration.
+This project prioritizes:
+- **Simplicity** - Clean, distraction-free interface for young learners
+- **Parental Involvement** - Designed for parent-child interaction
+- **Gradual Growth** - Features expand as Annelie's skills develop
+- **Joy of Learning** - Celebrations and positive feedback at every step
+
+## Development
+
+Built with modern web technologies and best practices:
+- CSS-first animations for performance
+- Centralized configuration for easy tuning
+- Type-safe with TypeScript
+- Component-driven architecture with bits-ui
+
+See [CLAUDE.md](CLAUDE.md) for development guidelines and architecture details.
 
 ## License
 
 MIT
+
+---
+
+Made with ❤️ for Annelie's learning journey
