@@ -1,40 +1,33 @@
 <script lang="ts">
-	import { keySuccess, keyError, killAnimations } from '$lib/animations/gsap';
+	import { Button } from 'bits-ui';
 
-	let {
-		key,
-		isCorrect,
-		isError,
-		onclick
-	}: {
+	// Feedback display duration (ms)
+	const FEEDBACK_DURATION = 400;
+
+	interface Props {
 		key: string;
 		isCorrect: boolean;
 		isError: boolean;
 		onclick: () => void;
-	} = $props();
+	}
 
-	let buttonElement: HTMLElement;
+	const { key, isCorrect, isError, onclick }: Props = $props();
 
+	type FeedbackState = 'success' | 'error' | null;
+	let feedback: FeedbackState = $state(null);
+
+	// Show visual feedback briefly on correct/error input
 	$effect(() => {
-		if (!buttonElement) return;
-
 		if (isCorrect) {
-			keySuccess(buttonElement);
+			feedback = 'success';
+			setTimeout(() => (feedback = null), FEEDBACK_DURATION);
 		} else if (isError) {
-			keyError(buttonElement);
+			feedback = 'error';
+			setTimeout(() => (feedback = null), FEEDBACK_DURATION);
 		}
-
-		return () => {
-			if (buttonElement) killAnimations(buttonElement);
-		};
 	});
 </script>
 
-<button
-	bind:this={buttonElement}
-	type="button"
-	class="flex h-12 w-9 items-center justify-center rounded-xl bg-white/80 text-lg font-semibold text-slate-700 shadow-md transition-all hover:scale-105 hover:bg-white active:scale-95 sm:h-14 sm:w-11 sm:text-xl"
-	{onclick}
->
+<Button.Root data-variant="key" data-feedback={feedback} {onclick}>
 	{key}
-</button>
+</Button.Root>

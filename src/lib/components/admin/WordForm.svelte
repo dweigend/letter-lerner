@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Button } from 'bits-ui';
 	import { Plus } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
 
@@ -11,50 +12,45 @@
 	} = $props();
 </script>
 
-<div class="rounded-2xl bg-white/60 p-6 shadow-lg backdrop-blur-sm">
-	<h2 class="mb-4 text-xl font-bold text-slate-700">Neues Wort hinzufügen</h2>
+<div class="admin-card">
+	<h2 class="admin-title">Neues Wort hinzufügen</h2>
 
-	<form method="POST" action="?/add" use:enhance class="space-y-4">
+	<form method="POST" action="?/add" use:enhance class="admin-form">
 		<div class="flex flex-col gap-2">
-			<label for="word" class="text-sm font-medium text-slate-600">Wort</label>
+			<label for="word" class="admin-label">Wort</label>
 			<input
 				type="text"
 				id="word"
 				name="word"
 				required
 				placeholder="z.B. HUND"
-				class="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 text-slate-700 placeholder:text-slate-400 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
+				class="admin-input"
 			/>
 		</div>
 
 		<div class="flex flex-col gap-2">
-			<label for="emoji" class="text-sm font-medium text-slate-600">Emoji</label>
+			<label for="emoji" class="admin-label">Emoji</label>
 			<input
 				type="text"
 				id="emoji"
 				name="emoji"
 				required
 				placeholder="z.B. 🐕"
-				class="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 text-slate-700 placeholder:text-slate-400 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
+				class="admin-input"
 			/>
 		</div>
 
 		{#if error}
-			<p class="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">{error}</p>
+			<p class="admin-message-error">{error}</p>
 		{/if}
 
 		{#if success}
-			<p class="rounded-lg bg-green-50 px-4 py-2 text-sm text-green-600">
-				Wort erfolgreich hinzugefügt!
-			</p>
+			<p class="admin-message-success">Wort erfolgreich hinzugefügt!</p>
 		{/if}
 
-		<button
-			type="submit"
-			class="flex w-full items-center justify-center gap-2 rounded-xl bg-pink-500 px-6 py-3 font-semibold text-white shadow-lg shadow-pink-500/25 transition-all hover:bg-pink-600 hover:shadow-xl"
-		>
+		<Button.Root type="submit" data-variant="primary">
 			<Plus class="h-5 w-5" />
 			<span>Hinzufügen</span>
-		</button>
+		</Button.Root>
 	</form>
 </div>

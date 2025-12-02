@@ -1,8 +1,347 @@
 @import 'tailwindcss';
 
+/* ===========================================
+   ANIMATION CONFIG
+   Adjust these values to tune all animations
+   =========================================== */
+:root {
+	/* Timing */
+	--anim-key-feedback: 0.15s;
+	--anim-shake: 0.4s;
+	--anim-bounce: 1.5s;
+	--anim-exit: 0.6s;
+	--anim-stagger-delay: 0.1s;
+
+	/* Bounce heights */
+	--bounce-height-max: -50px;
+	--bounce-height-mid: -15px;
+	--bounce-height-small: -6px;
+	--exit-height: -120px;
+
+	/* Squash & stretch factors */
+	--squash-y: 0.75;
+	--stretch-y: 1.15;
+	--squash-x: 1.2;
+	--stretch-x: 0.9;
+
+	/* Colors */
+	--color-success: #22c55e;
+	--color-error: #ef4444;
+	--color-filled: #f472b6;
+	--color-empty: #cbd5e1;
+}
+
+/* ===========================================
+   BASE STYLES
+   =========================================== */
 body {
 	font-family: 'Nunito', system-ui, sans-serif;
 	background: linear-gradient(180deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
 	min-height: 100vh;
 	overflow-x: hidden;
+}
+
+/* ===========================================
+   BITS-UI COMPONENTS
+   =========================================== */
+
+/* Button base */
+[data-button-root] {
+	@apply flex items-center justify-center font-semibold shadow-md transition-all;
+	@apply hover:scale-105 active:scale-95;
+}
+
+/* Keyboard key */
+[data-button-root][data-variant='key'] {
+	@apply h-12 w-9 rounded-xl bg-white/80 text-lg text-slate-700;
+	@apply hover:bg-white;
+	@apply sm:h-14 sm:w-11 sm:text-xl;
+	transition:
+		background-color var(--anim-key-feedback) ease-out,
+		transform var(--anim-key-feedback) ease-out;
+}
+
+[data-button-root][data-variant='key'][data-feedback='success'] {
+	background-color: var(--color-success);
+	@apply text-white;
+	transform: scale(1.05);
+}
+
+[data-button-root][data-variant='key'][data-feedback='error'] {
+	background-color: var(--color-error);
+	@apply text-white;
+	transform: scale(1.05);
+}
+
+/* Primary button */
+[data-button-root][data-variant='primary'] {
+	@apply w-full gap-2 rounded-xl bg-pink-500 px-6 py-3 text-white;
+	@apply shadow-lg shadow-pink-500/25;
+	@apply hover:bg-pink-600 hover:shadow-xl;
+}
+
+/* Danger button */
+[data-button-root][data-variant='danger'] {
+	@apply rounded-lg p-2 text-slate-400 shadow-none;
+	@apply hover:scale-100 hover:bg-red-50 hover:text-red-500;
+}
+
+/* Mini button (admin link) */
+[data-button-root][data-variant='mini'] {
+	@apply h-8 w-8 rounded-lg bg-white/40 text-slate-400 shadow-none;
+	@apply hover:bg-white/60 hover:text-slate-600;
+}
+
+/* Progress bar */
+[data-progress-root] {
+	@apply h-3 w-32 overflow-hidden rounded-full bg-slate-200;
+}
+
+.progress-indicator {
+	@apply h-full rounded-full bg-gradient-to-r from-pink-400 to-pink-500 transition-all duration-500;
+}
+
+/* ===========================================
+   GAME COMPONENTS
+   =========================================== */
+
+/* Letter slot container */
+.letter-slot-container {
+	@apply flex flex-col items-center;
+	width: 3rem;
+}
+
+/* Letter character display */
+.letter-char {
+	@apply text-4xl font-bold text-slate-700 transition-all duration-200;
+	@apply sm:text-5xl;
+	min-height: 3.5rem;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+}
+
+.letter-char[data-filled='false'] {
+	@apply text-transparent;
+}
+
+.letter-char[data-shaking='true'] {
+	animation: shake var(--anim-shake) ease-in-out;
+}
+
+/* Letter underline indicator */
+.letter-underline {
+	@apply h-1.5 w-full rounded-full transition-all duration-200;
+}
+
+.letter-underline[data-state='empty'] {
+	background-color: var(--color-empty);
+}
+
+.letter-underline[data-state='filled'] {
+	background-color: var(--color-filled);
+}
+
+.letter-underline[data-state='error'] {
+	background-color: var(--color-error);
+}
+
+/* Word slots container */
+.word-slots-container {
+	@apply flex flex-wrap justify-center gap-2 rounded-3xl bg-white/40 p-6 shadow-lg backdrop-blur-sm;
+	@apply sm:gap-3;
+}
+
+/* Game board layout */
+.game-board {
+	@apply flex flex-col items-center gap-8;
+}
+
+.game-emoji {
+	@apply text-8xl sm:text-9xl;
+}
+
+/* Progress header */
+.progress-header {
+	@apply flex items-center justify-between rounded-2xl bg-white/40 px-6 py-4 shadow-lg backdrop-blur-sm;
+}
+
+.progress-title {
+	@apply flex items-center gap-3;
+}
+
+.progress-title h1 {
+	@apply text-2xl font-bold text-slate-700;
+}
+
+.progress-info {
+	@apply flex items-center gap-4;
+}
+
+.progress-text {
+	@apply text-lg font-semibold text-slate-600;
+}
+
+/* Keyboard layout */
+.keyboard-container {
+	@apply flex flex-col items-center gap-2;
+}
+
+.keyboard-row {
+	@apply flex gap-1 sm:gap-2;
+}
+
+.keyboard-hint {
+	@apply mt-4 text-center text-sm text-slate-500;
+}
+
+/* ===========================================
+   ADMIN COMPONENTS
+   =========================================== */
+.admin-card {
+	@apply rounded-2xl bg-white/60 p-6 shadow-lg backdrop-blur-sm;
+}
+
+.admin-title {
+	@apply mb-4 text-xl font-bold text-slate-700;
+}
+
+.admin-form {
+	@apply space-y-4;
+}
+
+.admin-label {
+	@apply text-sm font-medium text-slate-600;
+}
+
+.admin-input {
+	@apply rounded-xl border border-slate-200 bg-white/80 px-4 py-3 text-slate-700;
+	@apply placeholder:text-slate-400;
+	@apply focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200;
+}
+
+.admin-message-error {
+	@apply rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600;
+}
+
+.admin-message-success {
+	@apply rounded-lg bg-green-50 px-4 py-2 text-sm text-green-600;
+}
+
+.admin-list-item {
+	@apply flex items-center justify-between rounded-xl bg-white/80 px-4 py-3 shadow-sm transition-all;
+	@apply hover:shadow-md;
+}
+
+.admin-list-item-content {
+	@apply flex items-center gap-3;
+}
+
+.admin-list-emoji {
+	@apply text-2xl;
+}
+
+.admin-list-word {
+	@apply font-semibold text-slate-700;
+}
+
+/* ===========================================
+   ANIMATIONS
+   =========================================== */
+
+/* Shake animation for wrong input */
+@keyframes shake {
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+	20% {
+		transform: translateX(-8px);
+	}
+	40% {
+		transform: translateX(8px);
+	}
+	60% {
+		transform: translateX(-4px);
+	}
+	80% {
+		transform: translateX(4px);
+	}
+}
+
+/* Spring bounce with squash & stretch */
+@keyframes spring-bounce {
+	0% {
+		transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg);
+	}
+	8% {
+		transform: translateY(5px) scaleY(var(--squash-y)) scaleX(var(--squash-x)) rotate(0deg);
+	}
+	20% {
+		transform: translateY(-45px) scaleY(var(--stretch-y)) scaleX(var(--stretch-x)) rotate(-8deg);
+	}
+	32% {
+		transform: translateY(var(--bounce-height-max)) scaleY(1.05) scaleX(0.95) rotate(0deg);
+	}
+	45% {
+		transform: translateY(-20px) scaleY(1.1) scaleX(0.92) rotate(6deg);
+	}
+	55% {
+		transform: translateY(0) scaleY(var(--squash-y)) scaleX(var(--squash-x)) rotate(0deg);
+	}
+	65% {
+		transform: translateY(var(--bounce-height-mid)) scaleY(1.08) scaleX(0.94) rotate(-3deg);
+	}
+	75% {
+		transform: translateY(0) scaleY(0.9) scaleX(1.08) rotate(0deg);
+	}
+	82% {
+		transform: translateY(var(--bounce-height-small)) scaleY(1.03) scaleX(0.98) rotate(2deg);
+	}
+	90% {
+		transform: translateY(0) scaleY(0.97) scaleX(1.02) rotate(0deg);
+	}
+	100% {
+		transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg);
+	}
+}
+
+.letter-celebrating {
+	animation: spring-bounce var(--anim-bounce) ease-out infinite;
+	color: var(--color-success) !important;
+	transform-origin: bottom center;
+}
+
+/* Exit animation - final jump into nothing */
+@keyframes jump-away {
+	0% {
+		transform: translateY(0) scaleY(1) scaleX(1);
+		opacity: 1;
+	}
+	15% {
+		transform: translateY(8px) scaleY(0.7) scaleX(1.2);
+		opacity: 1;
+	}
+	40% {
+		transform: translateY(-60px) scaleY(1.2) scaleX(0.85);
+		opacity: 1;
+	}
+	60% {
+		transform: translateY(-80px) scaleY(1.1) scaleX(0.9);
+		opacity: 0.7;
+	}
+	80% {
+		transform: translateY(-100px) scaleY(1) scaleX(1);
+		opacity: 0.3;
+	}
+	100% {
+		transform: translateY(var(--exit-height)) scaleY(0.8) scaleX(0.8);
+		opacity: 0;
+	}
+}
+
+.letter-exiting {
+	animation: jump-away var(--anim-exit) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+	color: var(--color-success) !important;
+	transform-origin: bottom center;
 }

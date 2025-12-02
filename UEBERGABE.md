@@ -1,201 +1,132 @@
-# Übergabe-Dokument: Bug-Fixes und Überarbeitung
+# Übergabe-Dokument: UI-Überarbeitung
 
-## Identifizierte Bugs (Screenshot-Analyse)
+## Session 2 - Abgeschlossen
 
-### Bug 1: Tasten bleiben grün/leuchten nach Eingabe
+### Erledigte Aufgaben
 
-**Symptom:** Die Tasten H, M, U zeigen dauerhaft grünes Feedback (boxShadow bleibt sichtbar)
+#### 1. GSAP durch CSS ersetzt
 
-**Ursache:**
+| Animation    | Vorher                       | Nachher                        |
+| ------------ | ---------------------------- | ------------------------------ |
+| Key Feedback | GSAP `keySuccess`/`keyError` | CSS `data-feedback` attribute  |
+| Shake        | GSAP keyframes               | CSS `@keyframes shake`         |
+| Celebration  | GSAP Timeline                | CSS `@keyframes spring-bounce` |
+| Exit         | -                            | CSS `@keyframes jump-away`     |
 
-- `keySuccess()` in `gsap.ts:52-65` setzt `boxShadow` und `scale` mit `yoyo: true, repeat: 1`
-- Nach Animation wird der Endzustand NICHT zurückgesetzt
-- GSAP `fromTo` Animation endet auf dem "from"-Wert bei yoyo, aber der boxShadow bleibt
+#### 2. UI radikal vereinfacht
 
-**Lösung:**
+**Vorher:**
 
-```typescript
-// In src/lib/animations/gsap.ts - keySuccess()
-export function keySuccess(element: HTMLElement): gsap.core.Tween {
-	return gsap.fromTo(
-		element,
-		{ boxShadow: '0 0 0 0 rgba(34, 197, 94, 0)', scale: 1 },
-		{
-			boxShadow: '0 0 20px 5px rgba(34, 197, 94, 0.6)',
-			scale: 1.1,
-			duration: DURATIONS.keyFeedback / 2,
-			yoyo: true,
-			repeat: 1,
-			ease: 'power2.out',
-			onComplete: () => {
-				// Explizit zurücksetzen nach Animation
-				gsap.set(element, { boxShadow: 'none', scale: 1 });
-			}
-		}
-	);
-}
-// Gleiches für keyError()
+```
+┌─────────┐
+│ ╭─────╮ │  ← Gestrichelte Border
+│ │  A  │ │  ← Buchstabe in Box
+│ ╰─────╯ │
+│ ═══════ │  ← Unterstreichung
+└─────────┘
 ```
 
-**Datei:** `src/lib/animations/gsap.ts:52-80`
+**Nachher:**
 
----
-
-### Bug 2: Unterstreichungen fehlen / sind inkonsistent
-
-**Symptom:** Bunte Linien unter den Buchstaben-Slots (rot, türkis) statt einheitlicher Unterstreichung
-
-**Ursache:**
-
-- Die alte UI (`+page.svelte` vor Refactor) hatte eine separate `<div>` für die Unterstreichung:
-  ```html
-  <div class="mt-1 h-1 w-full rounded-full bg-slate-300"></div>
-  ```
-- Diese wurde bei der Komponenten-Extraktion NICHT in `LetterSlot.svelte` übernommen
-- Die farbigen Linien im Screenshot sind wahrscheinlich Rest-Styles von GSAP-Animationen
-
-**Lösung:**
-
-```svelte
-<!-- In src/lib/components/game/LetterSlot.svelte -->
-<div bind:this={slotElement} class="flex flex-col items-center" data-index={index}>
-	<div
-		class="flex h-16 w-14 items-center justify-center rounded-2xl border-4 border-dashed text-3xl font-bold shadow-inner transition-colors sm:h-20 sm:w-16 sm:text-4xl
-            {isFilled
-			? 'border-green-300 bg-gradient-to-b from-green-50 to-green-100 text-green-600'
-			: 'border-slate-300 bg-white/60 text-transparent'}"
-	>
-		{letter || '_'}
-	</div>
-	<!-- Unterstreichung hinzufügen -->
-	<div
-		class="mt-2 h-1 w-full rounded-full transition-all duration-300
-            {isShaking
-			? 'bg-red-400 shadow-[0_0_8px_rgba(248,113,113,0.5)]'
-			: isFilled
-				? 'bg-pink-400'
-				: 'bg-slate-300'}"
-	></div>
-</div>
+```
+    A       ← Nur Buchstabe
+═══════     ← Nur Unterstrich
 ```
 
-**Datei:** `src/lib/components/game/LetterSlot.svelte`
+#### 3. Animation Config in app.css
 
----
+Alle Parameter zentral konfigurierbar:
 
-### Bug 3: GSAP-Styles werden nicht zurückgesetzt nach Celebration
+```css
+:root {
+	/* Timing */
+	--anim-key-feedback: 0.15s;
+	--anim-shake: 0.4s;
+	--anim-bounce: 1.5s;
+	--anim-exit: 0.6s;
 
-**Symptom:** Nach der Celebration-Animation bleiben farbige Schatten/Styles auf den Elementen
+	/* Bounce heights */
+	--bounce-height-max: -50px;
+	--bounce-height-mid: -15px;
+	--exit-height: -120px;
 
-**Ursache:**
+	/* Squash & stretch */
+	--squash-y: 0.75;
+	--stretch-y: 1.15;
 
-- `celebrateLetter()` setzt `color`, `textShadow`, `scale`, etc.
-- Nach Animation werden diese NICHT auf Ursprungswert zurückgesetzt
-- `killAnimations()` stoppt nur laufende Tweens, setzt aber keine Styles zurück
-
-**Lösung:**
-
-```typescript
-// In src/lib/animations/gsap.ts - celebrateAll()
-export function celebrateAll(elements: HTMLElement[], onComplete?: () => void): gsap.core.Timeline {
-	const masterTl = gsap.timeline({
-		onComplete: () => {
-			// Alle Styles zurücksetzen nach Celebration
-			elements.forEach((el) => {
-				gsap.set(el, { clearProps: 'all' });
-			});
-			if (onComplete) onComplete();
-		}
-	});
-	// ... rest bleibt gleich
+	/* Colors */
+	--color-success: #22c55e;
+	--color-error: #ef4444;
+	--color-filled: #f472b6;
 }
 ```
 
-**Datei:** `src/lib/animations/gsap.ts:119-135`
+#### 4. Celebration Animation
 
----
+Drei Phasen:
 
-### Bug 4: Potentieller State-Sync-Fehler
+1. **Bounce** (1.5s) - Spring-physics mit squash & stretch
+2. **Exit** - Buchstaben springen nacheinander ins Nichts
+3. **Next word** - Nach kurzer Pause erscheint das nächste Wort
 
-**Symptom:** Wort 5 (CAROLIN) zeigt 7 leere Slots aber keine Buchstaben
+Timing in `WordSlots.svelte`:
 
-**Mögliche Ursache:**
-
-- `hasAnimatedDrop` State in `LetterSlot.svelte` wird nicht korrekt zurückgesetzt bei Wortwechsel
-- Der Slot-Key `(i)` in `WordSlots.svelte` könnte bei gleicher Wortlänge Probleme machen
-
-**Lösung:**
-
-```svelte
-<!-- In src/lib/components/game/WordSlots.svelte -->
-<!-- Key sollte word + index kombinieren um bei Wortwechsel neu zu rendern -->
-{#each indices as i (`${word}-${i}`)}
+```typescript
+const CELEBRATION_DURATION = 1500;
+const EXIT_TO_COMPLETE_DELAY = 1300;
 ```
 
-**Datei:** `src/lib/components/game/WordSlots.svelte:45`
+#### 5. gsap.ts minimiert
+
+Nur noch 3 Funktionen:
+
+- `floatEmoji()` - Schwebendes Emoji
+- `triggerConfetti()` - Konfetti-Effekt
+- `killAnimations()` - Cleanup
+
+#### 6. Code Refactoring
+
+- TypeScript `interface Props` in allen Komponenten
+- Englische Kommentare
+- Konstanten am Dateianfang
+- Clean code nach Best Practices
 
 ---
 
-## Debugging-Plan
+## Geänderte Dateien
 
-### Schritt 1: Key Feedback Fix
-
-1. `git checkout -b fix/key-feedback-reset`
-2. In `gsap.ts`: `onComplete` Callback zu `keySuccess()` und `keyError()` hinzufügen
-3. Testen: Taste drücken → grün/rot blinken → zurück zu weiß
-4. `pnpm check && pnpm lint && pnpm test:unit -- --run`
-
-### Schritt 2: Unterstreichung wiederherstellen
-
-1. In `LetterSlot.svelte`: Wrapper-Div + Unterstreichungs-Div hinzufügen
-2. Shake-Animation auf inneres Element anwenden (nicht Wrapper)
-3. Testen: Slots zeigen Unterstreichung (grau → pink bei gefüllt, rot bei Fehler)
-
-### Schritt 3: Celebration Cleanup
-
-1. In `gsap.ts`: `clearProps: 'all'` nach Celebration
-2. Testen: Nach Celebration → nächstes Wort → keine Rest-Styles
-
-### Schritt 4: State-Sync prüfen
-
-1. Key in `WordSlots.svelte` ändern zu `${word}-${i}`
-2. Testen: Wortwechsel → alle Slots leer → korrekte Darstellung
-
-### Schritt 5: Visueller Test
-
-1. `pnpm dev`
-2. Durchspielen: Erstes Wort komplett → Celebration → nächstes Wort
-3. Prüfen:
-   - [ ] Tasten-Feedback verschwindet nach Animation
-   - [ ] Unterstreichungen korrekt (grau/pink/rot)
-   - [ ] Keine Rest-Styles nach Celebration
-   - [ ] Wortwechsel funktioniert sauber
+| Datei                                          | Änderung                                |
+| ---------------------------------------------- | --------------------------------------- |
+| `src/app.css`                                  | Animation config, CSS-only animations   |
+| `src/lib/animations/gsap.ts`                   | Minimiert auf 3 Funktionen              |
+| `src/lib/components/game/LetterSlot.svelte`    | Refactored, TypeScript interface        |
+| `src/lib/components/game/WordSlots.svelte`     | Celebration timing constants            |
+| `src/lib/components/keyboard/KeyButton.svelte` | CSS feedback, TypeScript interface      |
+| `CLAUDE.md`                                    | Aktualisierte Architektur-Dokumentation |
+| `README.md`                                    | Neue Projekt-Dokumentation              |
 
 ---
 
-## Betroffene Dateien
-
-| Datei                                       | Änderung                              |
-| ------------------------------------------- | ------------------------------------- |
-| `src/lib/animations/gsap.ts`                | `onComplete` Callbacks + `clearProps` |
-| `src/lib/components/game/LetterSlot.svelte` | Unterstreichung hinzufügen            |
-| `src/lib/components/game/WordSlots.svelte`  | Key-Pattern ändern                    |
-
----
-
-## Test-Kommandos
+## Test-Checkliste
 
 ```bash
-# Type Check
-pnpm check
-
-# Lint
-pnpm lint
-
-# Unit Tests
-pnpm test:unit -- --run
-
-# Dev Server
-pnpm dev
-# Dann http://localhost:5173 öffnen und manuell testen
+pnpm check && pnpm lint  # ✅ Passed
+pnpm dev                 # ✅ Running
 ```
+
+- [x] Tasten: Vollflächig grün/rot, verschwindet sauber
+- [x] Letter-Slots: Nur Buchstabe + Unterstrich
+- [x] Unterstreichung: grau → pink → rot
+- [x] Shake bei falschem Buchstaben
+- [x] Celebration: Bounce → Exit → Next
+- [x] Performance: Keine Lag
+- [x] Keine Konsolen-Fehler
+
+---
+
+## Nächste Schritte (optional)
+
+- [ ] Sound-Effekte hinzufügen
+- [ ] Schwierigkeitsgrade (längere Wörter)
+- [ ] Statistiken/Highscore speichern
+- [ ] PWA für Offline-Nutzung

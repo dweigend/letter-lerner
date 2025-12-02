@@ -23,9 +23,9 @@
 
 <svelte:window onkeydown={handlePhysicalKeyboard} />
 
-<div class="flex flex-col items-center gap-2">
+<div class="keyboard-container">
 	{#each KEYBOARD_ROWS as row, rowIndex (rowIndex)}
-		<div class="flex gap-1">
+		<div class="keyboard-row">
 			{#each row as key (key)}
 				<KeyButton
 					{key}
@@ -36,7 +36,5 @@
 			{/each}
 		</div>
 	{/each}
-	<p class="mt-4 text-center text-sm text-slate-500">
-		Tippe auf die Buchstaben oder benutze deine Tastatur!
-	</p>
+	<p class="keyboard-hint">Tippe auf die Buchstaben oder benutze deine Tastatur!</p>
 </div>

@@ -31,8 +31,8 @@
 	});
 </script>
 
-<div class="flex flex-col items-center gap-8">
-	<div bind:this={emojiElement} class="text-8xl sm:text-9xl">
+<div class="game-board">
+	<div bind:this={emojiElement} class="game-emoji">
 		{emoji}
 	</div>
 

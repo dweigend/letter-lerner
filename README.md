@@ -1,38 +1,79 @@
-# sv
+# Annelies Schreib-Spass
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A German spelling game for children built with SvelteKit 2 and Svelte 5.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Type letters via on-screen QWERTZ keyboard or physical keyboard
+- Visual feedback: keys flash green (correct) or red (wrong)
+- Minimal UI: letters appear above simple underlines
+- Celebration animation with bouncing letters and confetti
+- Admin panel to manage word list
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Quick Start
 
-# create a new project in my-app
-npx sv create my-app
+```bash
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
+
+# Open http://localhost:5173
 ```
 
-## Developing
+## Commands
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+| Command       | Description       |
+| ------------- | ----------------- |
+| `pnpm dev`    | Start dev server  |
+| `pnpm build`  | Production build  |
+| `pnpm check`  | TypeScript check  |
+| `pnpm lint`   | Prettier + ESLint |
+| `pnpm format` | Auto-format code  |
 
-```sh
-npm run dev
+## Tech Stack
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+- **Framework:** SvelteKit 2 + Svelte 5 (runes)
+- **Styling:** Tailwind CSS 4 + bits-ui
+- **Animations:** CSS animations + GSAP (minimal)
+- **Effects:** canvas-confetti
+
+## Project Structure
+
+```
+src/
+├── app.css                 # All styles + animation config
+├── lib/
+│   ├── animations/gsap.ts  # floatEmoji + confetti only
+│   ├── components/
+│   │   ├── game/           # GameBoard, LetterSlot, WordSlots
+│   │   └── keyboard/       # Keyboard, KeyButton
+│   └── stores/             # Game state (Svelte 5 runes)
+└── routes/
+    ├── +page.svelte        # Main game
+    └── admin/              # Word management
 ```
 
-## Building
+## Animation Configuration
 
-To create a production version of your app:
+All animation parameters are configurable in `app.css`:
 
-```sh
-npm run build
+```css
+:root {
+	--anim-bounce: 1.5s;
+	--anim-exit: 0.6s;
+	--bounce-height-max: -50px;
+	--color-success: #22c55e;
+	--color-error: #ef4444;
+}
 ```
 
-You can preview the production build with `npm run preview`.
+## Routes
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- `/` - Main spelling game
+- `/admin` - Add/remove words from the word list
+
+## License
+
+MIT

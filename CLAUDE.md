@@ -1,10 +1,10 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with this repository.
 
 ## Project Overview
 
-"Annelies Schreib-Spass" is a German spelling game for children built with SvelteKit 2 and Svelte 5. Children type letters (via on-screen QWERTZ keyboard or physical keyboard) to spell German words shown with emoji hints. The game provides visual feedback (green/red key flashes, shake animations) and celebrates success with dancing letters and confetti.
+"Annelies Schreib-Spass" is a German spelling game for children built with SvelteKit 2 and Svelte 5. Children type letters to spell German words shown with emoji hints. The game provides visual feedback and celebrates success with bouncing letters and confetti.
 
 ## Commands
 
@@ -14,93 +14,124 @@ pnpm build        # Production build
 pnpm check        # TypeScript + Svelte type checking
 pnpm lint         # Prettier + ESLint check
 pnpm format       # Format with Prettier
-pnpm test         # Run all tests once
-pnpm test:unit    # Run tests in watch mode
 ```
 
-## Project Structure
+## Core Rules
 
+### 1. Always use bits-ui components
+
+```svelte
+// CORRECT import {(Button, Progress)} from 'bits-ui';
+<Button.Root>Click</Button.Root>
+
+// WRONG - no native HTML buttons
+<button>Click</button>
 ```
-src/
-├── lib/
-│   ├── animations/
-│   │   └── gsap.ts               # GSAP animation functions
-│   ├── components/
-│   │   ├── admin/
-│   │   │   ├── WordForm.svelte   # Add/edit word form
-│   │   │   └── WordList.svelte   # Display word list
-│   │   ├── game/
-│   │   │   ├── GameBoard.svelte  # Emoji + word display
-│   │   │   ├── LetterSlot.svelte # Single letter slot
-│   │   │   ├── ProgressBar.svelte# Progress header
-│   │   │   └── WordSlots.svelte  # Letter slots container
-│   │   └── keyboard/
-│   │       ├── Keyboard.svelte   # QWERTZ keyboard
-│   │       └── KeyButton.svelte  # Single key
-│   ├── data/
-│   │   └── words.json            # Word list (editable via admin)
-│   ├── stores/
-│   │   ├── game.svelte.ts        # Game state with context
-│   │   └── words.svelte.ts       # Words store
-│   ├── data.ts                   # Keyboard layout constants
-│   └── types.ts                  # TypeScript interfaces
-├── routes/
-│   ├── +page.svelte              # Main game page
-│   ├── +page.server.ts           # Load words from JSON
-│   └── admin/
-│       ├── +page.svelte          # Admin UI
-│       └── +page.server.ts       # CRUD actions for words
-└── app.css                       # Tailwind + base styles
+
+### 2. All styles in app.css (no inline classes)
+
+```svelte
+// CORRECT - only data-attributes
+<Button.Root data-variant="key">A</Button.Root>
+
+// WRONG - inline Tailwind
+<Button.Root class="bg-pink-500 px-4">A</Button.Root>
+```
+
+### 3. Style via data-attributes
+
+```css
+/* app.css */
+[data-button-root][data-variant='key'] {
+	@apply h-12 w-9 rounded-xl bg-white/80;
+}
 ```
 
 ## Architecture
 
+### Animation System (CSS-first)
+
+All animations are CSS-based with configurable variables in `app.css`:
+
+```css
+:root {
+	--anim-bounce: 1.5s; /* Celebration bounce duration */
+	--anim-exit: 0.6s; /* Exit animation duration */
+	--anim-shake: 0.4s; /* Error shake duration */
+	--bounce-height-max: -50px;
+	--color-success: #22c55e;
+	--color-error: #ef4444;
+}
+```
+
+**CSS Animations:**
+
+- `spring-bounce` - Celebration with squash & stretch
+- `jump-away` - Exit animation (letters jump into nothing)
+- `shake` - Error feedback
+
+**GSAP (minimal):**
+
+- `floatEmoji()` - Floating emoji animation
+- `triggerConfetti()` - Celebration confetti
+
+### Component Structure
+
+```
+src/lib/components/
+├── game/
+│   ├── LetterSlot.svelte   # Letter + underline (minimal UI)
+│   ├── WordSlots.svelte    # Letter container + celebration logic
+│   ├── GameBoard.svelte    # Emoji + word display
+│   └── ProgressBar.svelte  # Progress header
+└── keyboard/
+    ├── Keyboard.svelte     # QWERTZ keyboard
+    └── KeyButton.svelte    # Key with feedback state
+```
+
 ### State Management
 
-Game state uses Svelte 5 runes with context pattern (`src/lib/stores/game.svelte.ts`):
+Svelte 5 runes with context pattern (`src/lib/stores/game.svelte.ts`):
 
-- `$state()` for reactive properties (index, input, shakeIndex, celebrationPhase)
-- Getter functions for derived values (word, emoji, isComplete, progress)
-- Context API for component access: `setGameContext()` / `getGameContext()`
+- `$state()` for reactive properties
+- `$derived()` for computed values
+- Context API: `setGameContext()` / `getGameContext()`
 
-### Animations (GSAP)
+### Celebration Flow
 
-All animations are centralized in `src/lib/animations/gsap.ts`:
-
-- `shakeElement()` - Error shake on wrong input
-- `dropLetter()` - Letter drop animation on correct input
-- `floatEmoji()` - Floating emoji animation
-- `keySuccess()` / `keyError()` - Key feedback animations
-- `celebrateLetter()` - Individual letter dance
-- `celebrateAll()` - Full celebration sequence with confetti
-- `triggerConfetti()` - Confetti effect
-
-### Success Flow
-
-1. Word complete → `game.startCelebration()`
-2. Letters dance and blink with colors (GSAP timeline)
+1. Word complete → `isCelebrating = true`
+2. Letters bounce (CSS `spring-bounce`, staggered)
 3. Confetti triggered
-4. After animation → `game.endCelebration()` → next word
+4. After `CELEBRATION_DURATION` → exit animation
+5. Letters jump away (CSS `jump-away`)
+6. After `EXIT_TO_COMPLETE_DELAY` → next word
 
-### Data Management
+Timing constants in `WordSlots.svelte`:
 
-- Words stored in `src/lib/data/words.json`
-- Loaded server-side via `+page.server.ts`
-- Admin page at `/admin` for CRUD operations
-- Form actions handle add/delete/update
+```typescript
+const CELEBRATION_DURATION = 1500;
+const EXIT_TO_COMPLETE_DELAY = 1300;
+```
+
+## Key Files
+
+| File                                           | Purpose                       |
+| ---------------------------------------------- | ----------------------------- |
+| `src/app.css`                                  | All styles + animation config |
+| `src/lib/animations/gsap.ts`                   | Only floatEmoji + confetti    |
+| `src/lib/components/game/WordSlots.svelte`     | Celebration timing            |
+| `src/lib/components/keyboard/KeyButton.svelte` | Key feedback                  |
 
 ## Routes
 
 - `/` - Main game
-- `/admin` - Word list management (no auth)
+- `/admin` - Word list management
 
 ## Tech Stack
 
-- SvelteKit 2 with Svelte 5 (runes)
+- SvelteKit 2 + Svelte 5 (runes)
 - TypeScript
-- GSAP for animations
 - Tailwind CSS 4
-- canvas-confetti for celebration effects
-- lucide-svelte for icons
-- Vitest + Playwright for testing
-- ESLint + Prettier for linting
+- bits-ui (headless components)
+- GSAP (minimal - emoji float only)
+- canvas-confetti
