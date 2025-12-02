@@ -17,19 +17,6 @@ My daughter Annelie is learning to write. To support her learning journey, I'm d
 - Celebration animations with bouncing letters and confetti
 - Admin panel to manage word list
 
-## Planned Future Levels
-
-The app is intentionally kept simple now, but I plan to continuously expand it with:
-
-- **AI & Voice Output** - Spoken letter and word assistance
-- **Automatic Spelling Help** - Smart guidance for difficult words
-- **Targeted Support** - Adaptive help based on learning progress
-- **Progress Tracking** - Automatic monitoring of learning achievements
-- **Keyboard Orientation** - Mini-levels to improve keyboard familiarity
-- **Sentence Writing** - Progress from words to simple sentences
-- **Listening & Writing** - Audio-based spelling exercises
-- **Reading Practice** - Building reading comprehension skills
-
 ## Quick Start
 
 ```bash
@@ -111,6 +98,19 @@ Built with modern web technologies and best practices:
 - Centralized configuration for easy tuning
 - Type-safe with TypeScript
 - Component-driven architecture with bits-ui
+
+## Roadmap
+
+The app is intentionally kept simple now, but I plan to continuously expand it with:
+
+- **AI & Voice Output** - Spoken letter and word assistance
+- **Automatic Spelling Help** - Smart guidance for difficult words
+- **Targeted Support** - Adaptive help based on learning progress
+- **Progress Tracking** - Automatic monitoring of learning achievements
+- **Keyboard Orientation** - Mini-levels to improve keyboard familiarity
+- **Sentence Writing** - Progress from words to simple sentences
+- **Listening & Writing** - Audio-based spelling exercises
+- **Reading Practice** - Building reading comprehension skills
 
 ## License
 
