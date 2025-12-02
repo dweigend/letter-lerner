@@ -1,9 +1,9 @@
 import { getContext, setContext } from 'svelte';
 import type { WordItem } from '$lib/types';
+import { ANIMATION_TIMINGS } from '$lib/config/animations';
+import { withTimeout } from '$lib/utils/timeout';
 
 const GAME_CONTEXT = Symbol('game');
-const SHAKE_DURATION_MS = 500;
-const KEY_FEEDBACK_DURATION_MS = 400;
 
 export class Game {
 	#words: WordItem[];
@@ -85,15 +85,15 @@ export class Game {
 		} else {
 			this.shakeIndex = firstEmptyIndex;
 			this.lastKeyCorrect = false;
-			setTimeout(() => {
+			withTimeout(() => {
 				this.shakeIndex = null;
-			}, SHAKE_DURATION_MS);
+			}, ANIMATION_TIMINGS.SHAKE);
 		}
 
-		setTimeout(() => {
+		withTimeout(() => {
 			this.lastPressedKey = null;
 			this.lastKeyCorrect = null;
-		}, KEY_FEEDBACK_DURATION_MS);
+		}, ANIMATION_TIMINGS.KEY_FEEDBACK);
 	}
 }
 

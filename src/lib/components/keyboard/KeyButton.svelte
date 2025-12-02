@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { Button } from 'bits-ui';
-
-	// Feedback display duration (ms)
-	const FEEDBACK_DURATION = 400;
+	import { ANIMATION_TIMINGS } from '$lib/config/animations';
+	import { withTimeout } from '$lib/utils/timeout';
 
 	interface Props {
 		key: string;
@@ -20,10 +19,10 @@
 	$effect(() => {
 		if (isCorrect) {
 			feedback = 'success';
-			setTimeout(() => (feedback = null), FEEDBACK_DURATION);
+			return withTimeout(() => (feedback = null), ANIMATION_TIMINGS.KEY_FEEDBACK);
 		} else if (isError) {
 			feedback = 'error';
-			setTimeout(() => (feedback = null), FEEDBACK_DURATION);
+			return withTimeout(() => (feedback = null), ANIMATION_TIMINGS.KEY_FEEDBACK);
 		}
 	});
 </script>

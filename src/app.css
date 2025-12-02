@@ -159,6 +159,7 @@ body {
 
 .game-emoji {
 	@apply text-8xl sm:text-9xl;
+	animation: float-emoji 1.5s ease-in-out infinite;
 }
 
 /* Progress header */
@@ -248,6 +249,17 @@ body {
 /* ===========================================
    ANIMATIONS
    =========================================== */
+
+/* Floating emoji animation */
+@keyframes float-emoji {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+}
 
 /* Shake animation for wrong input */
 @keyframes shake {

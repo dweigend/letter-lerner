@@ -1,10 +1,8 @@
 <script lang="ts">
 	import LetterSlot from './LetterSlot.svelte';
-	import { triggerConfetti } from '$lib/animations/gsap';
-
-	// Celebration timing (in ms) - adjust these to change animation flow
-	const CELEBRATION_DURATION = 1500; // How long letters bounce
-	const EXIT_TO_COMPLETE_DELAY = 1300; // Time after exit starts until next word
+	import { triggerConfetti } from '$lib/animations/confetti';
+	import { ANIMATION_TIMINGS } from '$lib/config/animations';
+	import { withTimeout } from '$lib/utils/timeout';
 
 	interface Props {
 		word: string;
@@ -29,17 +27,17 @@
 
 		triggerConfetti();
 
-		const exitTimer = setTimeout(() => {
+		const cleanup1 = withTimeout(() => {
 			isExiting = true;
-		}, CELEBRATION_DURATION);
+		}, ANIMATION_TIMINGS.CELEBRATION);
 
-		const completeTimer = setTimeout(() => {
+		const cleanup2 = withTimeout(() => {
 			onCelebrationComplete?.();
-		}, CELEBRATION_DURATION + EXIT_TO_COMPLETE_DELAY);
+		}, ANIMATION_TIMINGS.CELEBRATION + ANIMATION_TIMINGS.EXIT_DELAY);
 
 		return () => {
-			clearTimeout(exitTimer);
-			clearTimeout(completeTimer);
+			cleanup1();
+			cleanup2();
 		};
 	});
 </script>

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import WordSlots from './WordSlots.svelte';
-	import { floatEmoji, killAnimations } from '$lib/animations/gsap';
 
 	let {
 		emoji,
@@ -17,22 +16,10 @@
 		isCelebrating?: boolean;
 		onCelebrationComplete?: () => void;
 	} = $props();
-
-	let emojiElement: HTMLElement;
-
-	$effect(() => {
-		if (!emojiElement) return;
-
-		floatEmoji(emojiElement);
-
-		return () => {
-			if (emojiElement) killAnimations(emojiElement);
-		};
-	});
 </script>
 
 <div class="game-board">
-	<div bind:this={emojiElement} class="game-emoji">
+	<div class="game-emoji">
 		{emoji}
 	</div>
 

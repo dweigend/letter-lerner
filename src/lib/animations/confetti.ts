@@ -1,4 +1,3 @@
-import { gsap } from 'gsap';
 import confetti from 'canvas-confetti';
 
 // Confetti configuration
@@ -14,29 +13,9 @@ const CONFETTI_BASE = {
 } as const;
 
 /**
- * Floating animation for emoji display
- */
-export function floatEmoji(element: HTMLElement): gsap.core.Tween {
-	return gsap.to(element, {
-		y: '-=10',
-		duration: 1.5,
-		ease: 'sine.inOut',
-		yoyo: true,
-		repeat: -1
-	});
-}
-
-/**
  * Trigger celebration confetti (stars + circles)
  */
 export function triggerConfetti(): void {
 	confetti({ ...CONFETTI_BASE, shapes: ['star'], particleCount: 50, scalar: 1.2 });
 	confetti({ ...CONFETTI_BASE, shapes: ['circle'], particleCount: 30, scalar: 0.75 });
-}
-
-/**
- * Kill active GSAP animations on element(s)
- */
-export function killAnimations(elements: HTMLElement | HTMLElement[]): void {
-	gsap.killTweensOf(elements);
 }
