@@ -1,7 +1,8 @@
 node_modules
 
-# Archive (development notes)
+# Development notes (internal)
 archive/
+
 
 # Claude Code (personal settings)
 .claude/
