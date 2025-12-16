@@ -44,8 +44,8 @@ Code schreiben:
 Änderungen testen:
 
 ```bash
-pnpm dev          # Manuell im Browser testen
-pnpm check        # TypeScript + Svelte Typen prüfen
+bun dev          # Manuell im Browser testen
+bun check        # TypeScript + Svelte Typen prüfen
 ```
 
 ### 6. Debug
@@ -62,11 +62,12 @@ Bei Fehlern:
 Code-Qualität sicherstellen:
 
 ```bash
-pnpm lint         # ESLint + Prettier prüfen
-pnpm format       # Automatisch formatieren
+bun lint         # ESLint + Prettier prüfen
+bun format       # Automatisch formatieren
 ```
 
 Refactoring:
+
 - Duplikate entfernen
 - Funktionen aufteilen wenn > 20 Zeilen
 - Naming verbessern
@@ -89,6 +90,7 @@ git commit -m "type: emoji beschreibung"
 ```
 
 **Commit-Typen:**
+
 - `feat:` - Neues Feature
 - `fix:` - Bugfix
 - `refactor:` - Code-Umbau ohne Funktionsänderung
@@ -97,6 +99,7 @@ git commit -m "type: emoji beschreibung"
 - `chore:` - Build, Dependencies
 
 **Beispiele:**
+
 ```bash
 git commit -m "feat: add start menu with level selection"
 git commit -m "fix: correct drag-drop on touch devices"
@@ -118,13 +121,13 @@ Session beenden:
 
 ```bash
 # Entwicklung starten
-pnpm dev
+bun dev
 
 # Vor Änderungen
 git add -A && git commit -m "checkpoint: vor xyz"
 
 # Nach Änderungen
-pnpm check && pnpm lint
+bun check && bun lint
 git add -A && git commit -m "feat: xyz"
 
 # Session beenden

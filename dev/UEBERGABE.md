@@ -2,7 +2,7 @@
 
 ## Status: Phase 1+2 abgeschlossen
 
-**Datum**: 2025-12-06
+**Datum**: 2025-12-16
 **Branch**: `feature/game-levels`
 
 ## Aktueller Stand
@@ -38,14 +38,14 @@ src/routes/
 
 ## Neue Dateien
 
-| Datei | Zweck |
-|-------|-------|
-| `src/routes/level/+layout.server.ts` | Lädt words.json für alle Level |
-| `src/routes/level/+layout.svelte` | Shared UI mit "← Menu" Button |
-| `src/routes/level/buchstabieren/+page.svelte` | Buchstabieren-Spiel |
-| `src/lib/stores/levels.ts` | Level-Metadaten (Name, Emoji, Route) |
-| `src/lib/components/menu/LevelCard.svelte` | Level-Karte |
-| `src/lib/components/menu/LevelGrid.svelte` | Grid-Container |
+| Datei                                         | Zweck                                |
+| --------------------------------------------- | ------------------------------------ |
+| `src/routes/level/+layout.server.ts`          | Lädt words.json für alle Level       |
+| `src/routes/level/+layout.svelte`             | Shared UI mit "← Menu" Button        |
+| `src/routes/level/buchstabieren/+page.svelte` | Buchstabieren-Spiel                  |
+| `src/lib/stores/levels.ts`                    | Level-Metadaten (Name, Emoji, Route) |
+| `src/lib/components/menu/LevelCard.svelte`    | Level-Karte                          |
+| `src/lib/components/menu/LevelGrid.svelte`    | Grid-Container                       |
 
 ## Nächste Schritte (Phase 3)
 
@@ -63,12 +63,14 @@ src/routes/
 ## Projektkontext
 
 ### Tech Stack
+
 - SvelteKit 2 + Svelte 5 (runes: $state, $derived, $effect)
 - TypeScript, Tailwind CSS 4, bits-ui
 - GSAP (minimal), canvas-confetti
 - @thisux/sveltednd (Drag-and-Drop)
 
 ### Architektur-Prinzipien
+
 - **Clean Code**: Lesbar, wartbar, selbstdokumentierend
 - **Separation of Concerns**: UI, State, Logic getrennt
 - **KISS**: Einfachste Lösung bevorzugen
@@ -76,12 +78,14 @@ src/routes/
 - **Shared Data**: words.json via Layout Server Load
 
 ### Entwicklungsregeln
+
 - **Code/Docs**: Englisch
 - **Spiel-UI**: Deutsch
 - **Daten**: `words.json` zentral via +layout.server.ts
 - **Komponenten**: bits-ui durchgehend
 
 ### Wichtige Patterns
+
 - **Styling**: Alle Styles in `app.css` mit data-attributes
 - **State**: Svelte 5 runes mit Context API
 - **Komponenten**: bits-ui (Button.Root, Progress.Root)
@@ -89,15 +93,15 @@ src/routes/
 
 ## Level-Übersicht
 
-| Level | Route | Status |
-|-------|-------|--------|
-| Buchstabieren | `/level/buchstabieren` | ✅ Implementiert |
-| Buchstabenpuzzle | `/level/puzzle` | Nächste Phase |
-| Lesen | `/level/lesen` | Geplant |
+| Level            | Route                  | Status           |
+| ---------------- | ---------------------- | ---------------- |
+| Buchstabieren    | `/level/buchstabieren` | ✅ Implementiert |
+| Buchstabenpuzzle | `/level/puzzle`        | Nächste Phase    |
+| Lesen            | `/level/lesen`         | Geplant          |
 
 ## Referenzen
 
 - **Plan**: `dev/PLAN.md`
+- **Architektur**: `dev/ARCHITECTURE.md`
 - **Workflow**: `dev/WORKFLOW.md`
-- **Projekt-Readme**: `README.md`
 - **Claude-Kontext**: `CLAUDE.md`

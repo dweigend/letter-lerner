@@ -103,54 +103,60 @@ src/lib/stores/
 
 ## Implementierungsreihenfolge
 
-### Phase 1: Infrastruktur & Refactoring
-1. Git Branch erstellen: `git checkout -b feature/game-levels`
-2. `pnpm add @thisux/sveltednd` installieren
-3. `game.svelte.ts` refactoren → BaseGame Klasse extrahieren
-4. `src/lib/stores/levels.ts` erstellen
-5. Level-Layout `src/routes/level/+layout.svelte` erstellen
+### Phase 1: Infrastruktur & Refactoring ✅
 
-### Phase 2: Route-Umstrukturierung
-6. Buchstabieren von `/` nach `/level/buchstabieren/` verschieben
-7. Start-Menü an `/` erstellen
-8. Menu-Komponenten erstellen (LevelCard, LevelGrid)
+1. ✅ Git Branch erstellen: `git checkout -b feature/game-levels`
+2. ✅ `bun add @thisux/sveltednd` installieren
+3. ✅ `src/lib/stores/levels.ts` erstellen
+4. ✅ Level-Layout `src/routes/level/+layout.svelte` erstellen
+
+### Phase 2: Route-Umstrukturierung ✅
+
+5. ✅ Buchstabieren von `/` nach `/level/buchstabieren/` verschieben
+6. ✅ Start-Menü an `/` erstellen
+7. ✅ Menu-Komponenten erstellen (LevelCard, LevelGrid)
 
 ### Phase 3: Buchstabenpuzzle
+
 9. `src/lib/stores/puzzle.svelte.ts` erstellen (extends BaseGame)
 10. Puzzle-Komponenten erstellen (nutzt LetterSlot, WordSlots)
 11. Route `/level/puzzle/` erstellen
 12. CSS-Styles in `app.css` hinzufügen
 
 ### Phase 4: Lese-Level
+
 13. `src/lib/stores/reading.svelte.ts` erstellen (extends BaseGame)
 14. Reading-Komponenten erstellen (nutzt GameBoard, ProgressBar)
 15. Route `/level/lesen/` erstellen
 16. CSS-Styles in `app.css` hinzufügen
 
 ### Phase 5: Polish
+
 17. Touch-Geräte testen
 18. Celebration-Animationen (bereits vorhanden) in alle Level integrieren
 19. Navigation zwischen Leveln
 
 ## Kritische Dateien
 
-| Datei | Aktion |
-|-------|--------|
-| `src/routes/+page.svelte` | Überschreiben → Start-Menü |
-| `src/routes/+page.server.ts` | Löschen (nicht mehr benötigt) |
-| `src/app.css` | Erweitern → Menu + Puzzle + Lesen Styles |
-| `src/lib/stores/game.svelte.ts` | Refactoren → BaseGame extrahieren |
-| `src/lib/data/words.json` | Unverändert, von allen Leveln genutzt |
+| Datei                           | Aktion                                   |
+| ------------------------------- | ---------------------------------------- |
+| `src/routes/+page.svelte`       | Überschreiben → Start-Menü               |
+| `src/routes/+page.server.ts`    | Löschen (nicht mehr benötigt)            |
+| `src/app.css`                   | Erweitern → Menu + Puzzle + Lesen Styles |
+| `src/lib/stores/game.svelte.ts` | Refactoren → BaseGame extrahieren        |
+| `src/lib/data/words.json`       | Unverändert, von allen Leveln genutzt    |
 
 ## Level-Details
 
 ### Buchstabieren (bestehend, Basis für alle)
+
 - Keyboard-Eingabe der Buchstaben
 - Nutzt: GameBoard, WordSlots, LetterSlot, ProgressBar, Keyboard
 - Celebration-Animation bei Erfolg
 - **Wird zur Vorlage für alle anderen Level**
 
 ### Buchstabenpuzzle (neu)
+
 - Emoji + leere Slots anzeigen (nutzt GameBoard, WordSlots)
 - Buchstaben des Wortes gemischt darunter (LetterPool)
 - Kind zieht Buchstaben auf richtige Position (DraggableLetter)
@@ -158,6 +164,7 @@ src/lib/stores/
 - Celebration bei Erfolg (nutzt bestehende Celebration)
 
 ### Lese-Level (neu)
+
 - Wort wird groß angezeigt
 - 3 Emoji-Buttons darunter (1 richtig, 2 zufällig aus words.json)
 - Kind klickt auf richtiges Emoji

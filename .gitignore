@@ -6,7 +6,6 @@ archive/
 
 # Claude Code (personal settings)
 .claude/
-CLAUDE.md
 CLAUDE.local.md
 
 # Output
