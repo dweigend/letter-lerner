@@ -20,8 +20,7 @@ export const LEVELS: Level[] = [
 		name: 'Buchstabenpuzzle',
 		emoji: '🧩',
 		route: '/level/puzzle',
-		description: 'Ziehe die Buchstaben',
-		disabled: true
+		description: 'Ziehe die Buchstaben'
 	},
 	{
 		id: 'lesen',
