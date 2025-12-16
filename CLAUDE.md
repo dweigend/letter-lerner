@@ -9,11 +9,11 @@ This file provides guidance to Claude Code when working with this repository.
 ## Commands
 
 ```bash
-pnpm dev          # Start dev server
-pnpm build        # Production build
-pnpm check        # TypeScript + Svelte type checking
-pnpm lint         # Prettier + ESLint check
-pnpm format       # Format with Prettier
+bun dev          # Start dev server
+bun build        # Production build
+bun check        # TypeScript + Svelte type checking
+bun lint         # Prettier + ESLint check
+bun format       # Format with Prettier
 ```
 
 ## Core Rules

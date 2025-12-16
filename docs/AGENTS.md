@@ -9,11 +9,11 @@ Configuration for AI coding assistants working with this repository.
 ## Commands
 
 ```bash
-pnpm dev          # Start development server
-pnpm build        # Production build
-pnpm check        # TypeScript + Svelte type checking
-pnpm lint         # Prettier + ESLint check
-pnpm format       # Format with Prettier
+bun dev          # Start development server
+bun build        # Production build
+bun check        # TypeScript + Svelte type checking
+bun lint         # Prettier + ESLint check
+bun format       # Format with Prettier
 ```
 
 ## Code Style Rules
@@ -23,8 +23,9 @@ pnpm format       # Format with Prettier
 ```svelte
 <!-- CORRECT -->
 <script>
-  import { Button, Progress } from 'bits-ui';
+	import { Button, Progress } from 'bits-ui';
 </script>
+
 <Button.Root>Click</Button.Root>
 
 <!-- WRONG -->
@@ -46,7 +47,7 @@ pnpm format       # Format with Prettier
 ```css
 /* app.css */
 [data-button-root][data-variant='key'] {
-  @apply h-12 w-9 rounded-xl bg-white/80;
+	@apply h-12 w-9 rounded-xl bg-white/80;
 }
 ```
 
@@ -58,21 +59,23 @@ Animations are CSS-based with configurable variables in `app.css`:
 
 ```css
 :root {
-  --anim-bounce: 1.5s;     /* Celebration bounce */
-  --anim-exit: 0.6s;       /* Exit animation */
-  --anim-shake: 0.4s;      /* Error shake */
-  --bounce-height-max: -50px;
-  --color-success: #22c55e;
-  --color-error: #ef4444;
+	--anim-bounce: 1.5s; /* Celebration bounce */
+	--anim-exit: 0.6s; /* Exit animation */
+	--anim-shake: 0.4s; /* Error shake */
+	--bounce-height-max: -50px;
+	--color-success: #22c55e;
+	--color-error: #ef4444;
 }
 ```
 
 **CSS Animations:**
+
 - `spring-bounce` - Celebration with squash & stretch
 - `jump-away` - Exit animation
 - `shake` - Error feedback
 
 **GSAP (minimal):**
+
 - `floatEmoji()` - Floating emoji
 - `triggerConfetti()` - Celebration confetti
 
@@ -96,9 +99,9 @@ Svelte 5 runes with context pattern:
 
 ```typescript
 // src/lib/stores/game.svelte.ts
-$state()    // Reactive properties
-$derived()  // Computed values
-setGameContext() / getGameContext()  // Context API
+$state(); // Reactive properties
+$derived(); // Computed values
+setGameContext() / getGameContext(); // Context API
 ```
 
 ### Celebration Flow
@@ -112,12 +115,12 @@ setGameContext() / getGameContext()  // Context API
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| `src/app.css` | All styles + animation config |
-| `src/lib/animations/gsap.ts` | floatEmoji + confetti only |
-| `src/lib/components/game/WordSlots.svelte` | Celebration timing |
-| `src/lib/components/keyboard/KeyButton.svelte` | Key feedback |
+| File                                           | Purpose                       |
+| ---------------------------------------------- | ----------------------------- |
+| `src/app.css`                                  | All styles + animation config |
+| `src/lib/animations/gsap.ts`                   | floatEmoji + confetti only    |
+| `src/lib/components/game/WordSlots.svelte`     | Celebration timing            |
+| `src/lib/components/keyboard/KeyButton.svelte` | Key feedback                  |
 
 ## Routes
 
@@ -136,11 +139,13 @@ setGameContext() / getGameContext()  // Context API
 ## Boundaries
 
 **Do:**
+
 - Follow bits-ui patterns
 - Keep animations in CSS where possible
 - Use data-attributes for styling
 
 **Don't:**
+
 - Add inline Tailwind classes to components
 - Create new GSAP animations (use CSS)
 - Modify game words (German content is intentional)

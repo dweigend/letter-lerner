@@ -21,23 +21,23 @@ My daughter Annelie is learning to write. To support her learning journey, I'm d
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Start development server
-pnpm dev
+bun dev
 
 # Open http://localhost:5173
 ```
 
 ## Commands
 
-| Command       | Description       |
-| ------------- | ----------------- |
-| `pnpm dev`    | Start dev server  |
-| `pnpm build`  | Production build  |
-| `pnpm check`  | TypeScript check  |
-| `pnpm lint`   | Prettier + ESLint |
-| `pnpm format` | Auto-format code  |
+| Command      | Description       |
+| ------------ | ----------------- |
+| `bun dev`    | Start dev server  |
+| `bun build`  | Production build  |
+| `bun check`  | TypeScript check  |
+| `bun lint`   | Prettier + ESLint |
+| `bun format` | Auto-format code  |
 
 ## Tech Stack
 
@@ -86,6 +86,7 @@ All animation parameters are configurable in `app.css`:
 ## Philosophy
 
 This project prioritizes:
+
 - **Simplicity** - Clean, distraction-free interface for young learners
 - **Parental Involvement** - Designed for parent-child interaction
 - **Gradual Growth** - Features expand as Annelie's skills develop
@@ -94,6 +95,7 @@ This project prioritizes:
 ## Development
 
 Built with modern web technologies and best practices:
+
 - CSS-first animations for performance
 - Centralized configuration for easy tuning
 - Type-safe with TypeScript
