@@ -2,6 +2,7 @@ import { getContext, setContext } from 'svelte';
 import type { WordItem } from '$lib/types';
 import { ANIMATION_TIMINGS } from '$lib/config/animations';
 import { withTimeout } from '$lib/utils/timeout';
+import { shuffleArray } from '$lib/utils/array';
 
 const PUZZLE_CONTEXT = Symbol('puzzle');
 
@@ -54,32 +55,28 @@ export class PuzzleGame {
 		return this.#words.length;
 	}
 
-	initWord() {
-		const word = this.#words[this.index % this.#words.length].word;
-
-		// Create letters with unique IDs
-		const letters: PuzzleLetter[] = word.split('').map((letter, i) => ({
+	#createLetters(word: string): PuzzleLetter[] {
+		return word.split('').map((letter, i) => ({
 			id: `${this.index}-${i}`,
 			letter,
 			originalIndex: i
 		}));
+	}
 
-		// Shuffle letters (Fisher-Yates)
-		const shuffled = [...letters];
-		for (let i = shuffled.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-		}
-
-		// Ensure not in original order for words > 2 letters
+	#ensureShuffled(letters: PuzzleLetter[]): PuzzleLetter[] {
+		const shuffled = shuffleArray(letters);
 		if (shuffled.length > 2) {
-			const isOriginalOrder = shuffled.every((l, i) => l.originalIndex === i);
-			if (isOriginalOrder) {
+			const isOriginal = shuffled.every((l, i) => l.originalIndex === i);
+			if (isOriginal) {
 				[shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
 			}
 		}
+		return shuffled;
+	}
 
-		this.pool = shuffled;
+	initWord() {
+		const word = this.word;
+		this.pool = this.#ensureShuffled(this.#createLetters(word));
 		this.slots = word.split('').map((_, i) => ({ index: i, letter: null }));
 		this.shakeSlotIndex = null;
 		this.celebrationPhase = false;

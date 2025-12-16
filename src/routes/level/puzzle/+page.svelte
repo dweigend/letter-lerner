@@ -10,26 +10,29 @@
 	const game = createPuzzleGame(data.words);
 	setPuzzleContext(game);
 
+	function parseSlotIndex(container: string | null | undefined): number | null {
+		if (!container?.startsWith('slot-')) return null;
+		return parseInt(container.split('-')[1]);
+	}
+
 	function handleDrop(state: DragDropState<PuzzleLetter>) {
 		if (game.celebrationPhase) return;
 
 		const { draggedItem, targetContainer, sourceContainer } = state;
-
-		// Ignore clicks without actual drag
 		if (!draggedItem || !sourceContainer) return;
-		if (!targetContainer?.startsWith('slot-')) return;
 
-		const slotIndex = parseInt(targetContainer.split('-')[1]);
+		const slotIndex = parseSlotIndex(targetContainer);
+		if (slotIndex === null) return;
+
 		game.handleDrop(slotIndex, draggedItem, sourceContainer);
 	}
 
 	function handleReturnToPool(state: DragDropState<PuzzleLetter>) {
 		if (game.celebrationPhase) return;
 
-		const { sourceContainer } = state;
-		if (!sourceContainer?.startsWith('slot-')) return;
+		const slotIndex = parseSlotIndex(state.sourceContainer);
+		if (slotIndex === null) return;
 
-		const slotIndex = parseInt(sourceContainer.split('-')[1]);
 		game.returnToPool(slotIndex);
 	}
 
