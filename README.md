@@ -8,14 +8,23 @@ My daughter Annelie is learning to write. To support her learning journey, I'm d
 
 **Important:** This game is designed to be played **together with parents**, not alone. Parents help children find the letters on the keyboard and guide them through the learning process.
 
-## Current Features (Level 1)
+## Game Levels
 
-- Emoji-based word learning: An emoji appears, child types the matching word
-- QWERTZ keyboard (on-screen + physical keyboard support)
-- Visual feedback: keys flash green (correct) or red (wrong)
-- Minimal, distraction-free UI
-- Celebration animations with bouncing letters and confetti
-- Admin panel to manage word list
+| Level            | Route                  | Description                       |
+| ---------------- | ---------------------- | --------------------------------- |
+| Buchstabieren    | `/level/buchstabieren` | Type letters on keyboard          |
+| Buchstabenpuzzle | `/level/puzzle`        | Drag letters to correct positions |
+| Lesen            | `/level/lesen`         | Match word to emoji (coming soon) |
+
+## Features
+
+- **Start Menu** - Level selection with visual cards
+- **Emoji-based learning** - An emoji appears, child interacts with letters
+- **QWERTZ keyboard** - On-screen + physical keyboard support
+- **Drag-and-Drop** - Touch-friendly puzzle mode
+- **Visual feedback** - Green (correct) / Red (wrong) animations
+- **Celebration** - Bouncing letters and confetti on success
+- **Admin panel** - Manage word list at `/admin`
 
 ## Quick Start
 
@@ -43,8 +52,9 @@ bun dev
 
 - **Framework:** SvelteKit 2 + Svelte 5 (runes)
 - **Styling:** Tailwind CSS 4 + bits-ui (headless components)
-- **Animations:** CSS-first animations (no heavy dependencies)
+- **Animations:** CSS-first animations
 - **Effects:** canvas-confetti
+- **Drag-Drop:** @thisux/sveltednd
 
 ## Project Structure
 
@@ -52,15 +62,20 @@ bun dev
 src/
 ├── app.css                    # All styles + animation config
 ├── lib/
-│   ├── animations/confetti.ts # Celebration confetti
+│   ├── animations/            # Celebration confetti
 │   ├── components/
 │   │   ├── game/              # GameBoard, LetterSlot, WordSlots
-│   │   └── keyboard/          # Keyboard, KeyButton
+│   │   ├── keyboard/          # Keyboard, KeyButton
+│   │   ├── menu/              # LevelCard, LevelGrid
+│   │   └── puzzle/            # DraggableLetter, DropSlot, etc.
 │   ├── config/                # Animation timings
 │   ├── stores/                # Game state (Svelte 5 runes)
 │   └── utils/                 # Shared utilities
 └── routes/
-    ├── +page.svelte           # Main game
+    ├── +page.svelte           # Start menu
+    ├── level/
+    │   ├── buchstabieren/     # Spelling game
+    │   └── puzzle/            # Drag-drop puzzle
     └── admin/                 # Word management
 ```
 
@@ -80,7 +95,9 @@ All animation parameters are configurable in `app.css`:
 
 ## Routes
 
-- `/` - Main spelling game
+- `/` - Start menu with level selection
+- `/level/buchstabieren` - Type letters to spell words
+- `/level/puzzle` - Drag letters to correct positions
 - `/admin` - Add/remove words from the word list
 
 ## Philosophy

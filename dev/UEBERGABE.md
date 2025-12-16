@@ -1,9 +1,9 @@
 # Übergabe: Letter-Lerner Multi-Level Feature
 
-## Status: Phase 1+2 abgeschlossen
+## Status: Phase 3 abgeschlossen
 
 **Datum**: 2025-12-16
-**Branch**: `feature/game-levels`
+**Branch**: `main`
 
 ## Aktueller Stand
 
@@ -11,19 +11,21 @@
 - [x] Drag-and-Drop Library recherchiert (@thisux/sveltednd)
 - [x] Implementierungsplan erstellt (siehe PLAN.md)
 - [x] Architektur-Prinzipien definiert (Clean Code, KISS, DRY)
-- [x] Git Branch erstellt
-- [x] Dependency installiert (@thisux/sveltednd)
-- [x] **Phase 1+2: Infrastruktur & Route-Umstrukturierung abgeschlossen**
-  - [x] Start-Menü mit Level-Auswahl erstellt
+- [x] **Phase 1+2: Infrastruktur & Route-Umstrukturierung**
+  - [x] Start-Menü mit Level-Auswahl
   - [x] Buchstabieren nach `/level/buchstabieren` verschoben
   - [x] Level-Layout mit shared Server Load für words.json
   - [x] Menu-Komponenten (LevelCard, LevelGrid)
   - [x] Level-Metadaten Store (levels.ts)
-  - [x] CSS-Styles für Menu und Navigation
-- [ ] Phase 3: Buchstabenpuzzle implementieren
+- [x] **Phase 3: Buchstabenpuzzle**
+  - [x] PuzzleGame Store mit Drag-and-Drop State
+  - [x] Puzzle-Komponenten (DraggableLetter, DropSlot, LetterPool, etc.)
+  - [x] Route `/level/puzzle` erstellt
+  - [x] CSS-Styles für Puzzle in app.css
+  - [x] Refactoring: shuffleArray utility extrahiert
 - [ ] Phase 4: Lese-Level implementieren
 
-## Neue Architektur
+## Aktuelle Architektur
 
 ```
 src/routes/
@@ -31,34 +33,41 @@ src/routes/
 ├── level/
 │   ├── +layout.svelte              # Shared UI (Back-Button)
 │   ├── +layout.server.ts           # Lädt words.json für alle Level
-│   └── buchstabieren/
-│       └── +page.svelte            # Buchstabieren-Spiel
+│   ├── buchstabieren/
+│   │   └── +page.svelte            # Buchstabieren-Spiel
+│   └── puzzle/
+│       └── +page.svelte            # Buchstabenpuzzle (NEU)
 └── admin/                          # Unverändert
 ```
 
-## Neue Dateien
+## Neue Dateien (Phase 3)
 
-| Datei                                         | Zweck                                |
-| --------------------------------------------- | ------------------------------------ |
-| `src/routes/level/+layout.server.ts`          | Lädt words.json für alle Level       |
-| `src/routes/level/+layout.svelte`             | Shared UI mit "← Menu" Button        |
-| `src/routes/level/buchstabieren/+page.svelte` | Buchstabieren-Spiel                  |
-| `src/lib/stores/levels.ts`                    | Level-Metadaten (Name, Emoji, Route) |
-| `src/lib/components/menu/LevelCard.svelte`    | Level-Karte                          |
-| `src/lib/components/menu/LevelGrid.svelte`    | Grid-Container                       |
+| Datei                                       | Zweck                          |
+| ------------------------------------------- | ------------------------------ |
+| `src/lib/stores/puzzle.svelte.ts`           | PuzzleGame State + Logic       |
+| `src/lib/utils/array.ts`                    | shuffleArray utility           |
+| `src/lib/components/puzzle/DraggableLetter` | Ziehbarer Buchstabe            |
+| `src/lib/components/puzzle/DropSlot`        | Drop-Ziel mit Validation       |
+| `src/lib/components/puzzle/DropSlots`       | Container + Celebration        |
+| `src/lib/components/puzzle/LetterPool`      | Pool der gemischten Buchstaben |
+| `src/lib/components/puzzle/PuzzleBoard`     | Hauptkomponente für Puzzle     |
+| `src/routes/level/puzzle/+page.svelte`      | Puzzle-Route                   |
 
-## Nächste Schritte (Phase 3)
+## Nächste Schritte (Phase 4)
 
-1. **Puzzle-Store erstellen**
-   - `src/lib/stores/puzzle.svelte.ts`
-   - Nutzt @thisux/sveltednd für Drag-and-Drop
+1. **Reading-Store erstellen**
+   - `src/lib/stores/reading.svelte.ts`
+   - Wort anzeigen + 3 Emoji-Optionen (1 richtig, 2 falsch)
 
-2. **Puzzle-Komponenten erstellen**
-   - `src/lib/components/puzzle/DraggableLetter.svelte`
-   - `src/lib/components/puzzle/LetterPool.svelte`
+2. **Reading-Komponenten erstellen**
+   - `src/lib/components/reading/EmojiOption.svelte`
+   - `src/lib/components/reading/EmojiGrid.svelte`
 
-3. **Puzzle-Route erstellen**
-   - `src/routes/level/puzzle/+page.svelte`
+3. **Reading-Route erstellen**
+   - `src/routes/level/lesen/+page.svelte`
+
+4. **Level aktivieren**
+   - `levels.ts` → `disabled: false` für Lesen
 
 ## Projektkontext
 
@@ -66,7 +75,7 @@ src/routes/
 
 - SvelteKit 2 + Svelte 5 (runes: $state, $derived, $effect)
 - TypeScript, Tailwind CSS 4, bits-ui
-- GSAP (minimal), canvas-confetti
+- canvas-confetti
 - @thisux/sveltednd (Drag-and-Drop)
 
 ### Architektur-Prinzipien
@@ -77,27 +86,21 @@ src/routes/
 - **DRY**: Vorhandenen Code wiederverwenden
 - **Shared Data**: words.json via Layout Server Load
 
-### Entwicklungsregeln
-
-- **Code/Docs**: Englisch
-- **Spiel-UI**: Deutsch
-- **Daten**: `words.json` zentral via +layout.server.ts
-- **Komponenten**: bits-ui durchgehend
-
 ### Wichtige Patterns
 
 - **Styling**: Alle Styles in `app.css` mit data-attributes
 - **State**: Svelte 5 runes mit Context API
 - **Komponenten**: bits-ui (Button.Root, Progress.Root)
 - **Data Loading**: Layout Server Load für shared data
+- **Utilities**: Wiederverwendbare Funktionen in `src/lib/utils/`
 
 ## Level-Übersicht
 
 | Level            | Route                  | Status           |
 | ---------------- | ---------------------- | ---------------- |
 | Buchstabieren    | `/level/buchstabieren` | ✅ Implementiert |
-| Buchstabenpuzzle | `/level/puzzle`        | Nächste Phase    |
-| Lesen            | `/level/lesen`         | Geplant          |
+| Buchstabenpuzzle | `/level/puzzle`        | ✅ Implementiert |
+| Lesen            | `/level/lesen`         | Nächste Phase    |
 
 ## Referenzen
 

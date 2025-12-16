@@ -116,12 +116,13 @@ src/lib/stores/
 6. ✅ Start-Menü an `/` erstellen
 7. ✅ Menu-Komponenten erstellen (LevelCard, LevelGrid)
 
-### Phase 3: Buchstabenpuzzle
+### Phase 3: Buchstabenpuzzle ✅
 
-9. `src/lib/stores/puzzle.svelte.ts` erstellen (extends BaseGame)
-10. Puzzle-Komponenten erstellen (nutzt LetterSlot, WordSlots)
-11. Route `/level/puzzle/` erstellen
-12. CSS-Styles in `app.css` hinzufügen
+9. ✅ `src/lib/stores/puzzle.svelte.ts` erstellen (PuzzleGame class)
+10. ✅ Puzzle-Komponenten erstellen (DraggableLetter, DropSlot, LetterPool, etc.)
+11. ✅ Route `/level/puzzle/` erstellen
+12. ✅ CSS-Styles in `app.css` hinzufügen
+13. ✅ `src/lib/utils/array.ts` - shuffleArray utility extrahiert
 
 ### Phase 4: Lese-Level
 

@@ -42,22 +42,44 @@ src/lib/components/
 ├── keyboard/
 │   ├── Keyboard.svelte     # QWERTZ keyboard
 │   └── KeyButton.svelte    # Key with feedback
-└── menu/
-    ├── LevelCard.svelte    # Level selection card
-    └── LevelGrid.svelte    # Grid of level cards
+├── menu/
+│   ├── LevelCard.svelte    # Level selection card
+│   └── LevelGrid.svelte    # Grid of level cards
+└── puzzle/
+    ├── DraggableLetter.svelte  # Draggable letter tile
+    ├── DropSlot.svelte         # Drop target with validation
+    ├── DropSlots.svelte        # Slots container + celebration
+    ├── LetterPool.svelte       # Pool of shuffled letters
+    └── PuzzleBoard.svelte      # Main puzzle board
 ```
 
 ## State Management
 
-Svelte 5 runes with context pattern (`src/lib/stores/game.svelte.ts`):
+Svelte 5 runes with context pattern:
+
+**Game Store** (`src/lib/stores/game.svelte.ts`):
 
 ```typescript
 class Game {
 	index = $state(0);
 	input = $state<string[]>([]);
-	// ...
+	celebrationPhase = $state(false);
 }
+```
 
+**Puzzle Store** (`src/lib/stores/puzzle.svelte.ts`):
+
+```typescript
+class PuzzleGame {
+	pool = $state<PuzzleLetter[]>([]);
+	slots = $state<PuzzleSlot[]>([]);
+	// Uses @thisux/sveltednd for drag-and-drop
+}
+```
+
+Context pattern for all stores:
+
+```typescript
 export function setGameContext(game: Game) {
 	setContext(GAME_CONTEXT, game);
 }
@@ -78,11 +100,14 @@ export function getGameContext(): Game {
 
 ## Key Files
 
-| File                            | Purpose                       |
-| ------------------------------- | ----------------------------- |
-| `src/app.css`                   | All styles + animation config |
-| `src/lib/config/animations.ts`  | Timing constants              |
-| `src/lib/animations/gsap.ts`    | floatEmoji + confetti         |
-| `src/lib/stores/game.svelte.ts` | Game state class              |
-| `src/lib/stores/levels.ts`      | Level metadata                |
-| `src/lib/data/words.json`       | Word database                 |
+| File                              | Purpose                        |
+| --------------------------------- | ------------------------------ |
+| `src/app.css`                     | All styles + animation config  |
+| `src/lib/config/animations.ts`    | Timing constants               |
+| `src/lib/animations/confetti.ts`  | Celebration confetti           |
+| `src/lib/stores/game.svelte.ts`   | Buchstabieren state            |
+| `src/lib/stores/puzzle.svelte.ts` | Puzzle state + drag-drop logic |
+| `src/lib/stores/levels.ts`        | Level metadata                 |
+| `src/lib/utils/array.ts`          | shuffleArray utility           |
+| `src/lib/utils/timeout.ts`        | withTimeout utility            |
+| `src/lib/data/words.json`         | Word database                  |
