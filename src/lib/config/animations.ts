@@ -14,5 +14,5 @@ export const ANIMATION_TIMINGS = {
 	/** Word completion celebration duration */
 	CELEBRATION: 1500,
 	/** Delay before transitioning to next word after celebration */
-	EXIT_DELAY: 1300,
+	EXIT_DELAY: 1300
 } as const;
