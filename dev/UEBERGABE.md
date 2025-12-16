@@ -1,6 +1,6 @@
 # Übergabe: Letter-Lerner Multi-Level Feature
 
-## Status: Phase 3 abgeschlossen
+## Status: Phase 4 abgeschlossen ✅
 
 **Datum**: 2025-12-16
 **Branch**: `main`
@@ -23,7 +23,12 @@
   - [x] Route `/level/puzzle` erstellt
   - [x] CSS-Styles für Puzzle in app.css
   - [x] Refactoring: shuffleArray utility extrahiert
-- [ ] Phase 4: Lese-Level implementieren
+- [x] **Phase 4: Lese-Level**
+  - [x] ReadingGame Store mit Emoji-Auswahl Logic
+  - [x] Reading-Komponenten (EmojiOption, EmojiGrid, ReadingBoard)
+  - [x] Route `/level/lesen` erstellt
+  - [x] CSS-Styles für Reading in app.css
+  - [x] Level im Menü aktiviert
 
 ## Aktuelle Architektur
 
@@ -35,39 +40,29 @@ src/routes/
 │   ├── +layout.server.ts           # Lädt words.json für alle Level
 │   ├── buchstabieren/
 │   │   └── +page.svelte            # Buchstabieren-Spiel
-│   └── puzzle/
-│       └── +page.svelte            # Buchstabenpuzzle (NEU)
+│   ├── puzzle/
+│   │   └── +page.svelte            # Buchstabenpuzzle
+│   └── lesen/
+│       └── +page.svelte            # Lese-Level (NEU)
 └── admin/                          # Unverändert
 ```
 
-## Neue Dateien (Phase 3)
+## Neue Dateien (Phase 4)
 
-| Datei                                       | Zweck                          |
-| ------------------------------------------- | ------------------------------ |
-| `src/lib/stores/puzzle.svelte.ts`           | PuzzleGame State + Logic       |
-| `src/lib/utils/array.ts`                    | shuffleArray utility           |
-| `src/lib/components/puzzle/DraggableLetter` | Ziehbarer Buchstabe            |
-| `src/lib/components/puzzle/DropSlot`        | Drop-Ziel mit Validation       |
-| `src/lib/components/puzzle/DropSlots`       | Container + Celebration        |
-| `src/lib/components/puzzle/LetterPool`      | Pool der gemischten Buchstaben |
-| `src/lib/components/puzzle/PuzzleBoard`     | Hauptkomponente für Puzzle     |
-| `src/routes/level/puzzle/+page.svelte`      | Puzzle-Route                   |
+| Datei                                     | Zweck                     |
+| ----------------------------------------- | ------------------------- |
+| `src/lib/stores/reading.svelte.ts`        | ReadingGame State + Logic |
+| `src/lib/components/reading/EmojiOption`  | Klickbares Emoji          |
+| `src/lib/components/reading/EmojiGrid`    | 3-Emoji Container         |
+| `src/lib/components/reading/ReadingBoard` | Hauptkomponente für Lesen |
+| `src/routes/level/lesen/+page.svelte`     | Lesen-Route               |
 
-## Nächste Schritte (Phase 4)
+## Spielprinzip Lese-Level
 
-1. **Reading-Store erstellen**
-   - `src/lib/stores/reading.svelte.ts`
-   - Wort anzeigen + 3 Emoji-Optionen (1 richtig, 2 falsch)
-
-2. **Reading-Komponenten erstellen**
-   - `src/lib/components/reading/EmojiOption.svelte`
-   - `src/lib/components/reading/EmojiGrid.svelte`
-
-3. **Reading-Route erstellen**
-   - `src/routes/level/lesen/+page.svelte`
-
-4. **Level aktivieren**
-   - `levels.ts` → `disabled: false` für Lesen
+- Wort wird angezeigt (groß, zentriert)
+- 3 Emoji-Optionen (1 richtig, 2 zufällig falsch)
+- Klick auf falsches Emoji → Shake-Animation
+- Klick auf richtiges Emoji → Confetti + nächstes Wort
 
 ## Projektkontext
 
@@ -100,7 +95,7 @@ src/routes/
 | ---------------- | ---------------------- | ---------------- |
 | Buchstabieren    | `/level/buchstabieren` | ✅ Implementiert |
 | Buchstabenpuzzle | `/level/puzzle`        | ✅ Implementiert |
-| Lesen            | `/level/lesen`         | Nächste Phase    |
+| Lesen            | `/level/lesen`         | ✅ Implementiert |
 
 ## Referenzen
 

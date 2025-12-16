@@ -496,3 +496,47 @@ body {
 [data-puzzle-letter]:active {
 	@apply scale-110 shadow-xl;
 }
+
+/* ===========================================
+   READING COMPONENTS
+   =========================================== */
+
+/* Reading board layout */
+[data-reading-board] {
+	@apply flex flex-col items-center gap-12;
+}
+
+/* Word display - large and prominent */
+.game-word {
+	@apply text-5xl font-bold tracking-wide text-slate-700;
+	@apply sm:text-6xl md:text-7xl;
+}
+
+/* Emoji grid - 3 options in a row */
+[data-emoji-grid] {
+	@apply flex flex-wrap justify-center gap-4 rounded-3xl bg-white/40 p-6 shadow-lg backdrop-blur-sm;
+	@apply sm:gap-6;
+}
+
+/* Emoji option button */
+[data-reading-option] {
+	@apply flex h-24 w-24 cursor-pointer items-center justify-center rounded-2xl bg-white text-6xl shadow-md transition-all;
+	@apply hover:scale-110 hover:shadow-lg;
+	@apply active:scale-95;
+	@apply sm:h-28 sm:w-28 sm:text-7xl;
+}
+
+[data-reading-option][data-shaking='true'] {
+	animation: shake var(--anim-shake) ease-in-out;
+	background-color: var(--color-error);
+}
+
+[data-reading-option][data-celebrating='true'] {
+	animation: spring-bounce var(--anim-bounce) ease-out;
+	background-color: var(--color-success);
+	transform-origin: bottom center;
+}
+
+[data-reading-option][data-correct='true'] {
+	background-color: var(--color-success);
+}

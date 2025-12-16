@@ -27,7 +27,6 @@ export const LEVELS: Level[] = [
 		name: 'Lesen',
 		emoji: '📖',
 		route: '/level/lesen',
-		description: 'Finde das richtige Bild',
-		disabled: true
+		description: 'Finde das richtige Bild'
 	}
 ];
