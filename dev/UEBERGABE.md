@@ -30,20 +30,9 @@ Implementiert in `src/routes/level/+layout.server.ts` - Wörter werden bei jedem
 
 ---
 
-## Phase 6: Sound-System
+## Phase 6: Sound-System ✅ Ready
 
-### Ziel
-
-Audio-Feedback für Spielaktionen. Die Audio-Dateien werden von David bereitgestellt.
-
-### Was das Spiel braucht
-
-- **Richtig-Sound**: Wenn ein Buchstabe/Emoji richtig ist
-- **Falsch-Sound**: Wenn ein Buchstabe/Emoji falsch ist
-- **Feier-Sound**: Bei Wort-Abschluss (mit Confetti)
-- **Klick-Sound**: (optional) Bei Button-Interaktion
-
-### Benötigte Audio-Dateien
+### Audio-Dateien vorhanden
 
 | Datei             | Zweck  | Wann gespielt             |
 | ----------------- | ------ | ------------------------- |
@@ -51,16 +40,25 @@ Audio-Feedback für Spielaktionen. Die Audio-Dateien werden von David bereitgest
 | `error.mp3`       | Fehler | Falscher Buchstabe/Emoji  |
 | `celebration.mp3` | Feier  | Wort abgeschlossen        |
 | `click.mp3`       | Klick  | (optional) Button-Tap     |
+| `click_2.mp3`     | Klick  | (optional) Alternative    |
 
-**Ablageort**: `static/sounds/`
+**Ablageort**: `static/sounds/` ✅
 
-### Technische Umsetzung
+### Implementierung
 
-1. Sound-Dictionary in `src/lib/data/sounds.json`
-2. Audio-Utility in `src/lib/utils/audio.ts`
-3. `playSound()` Aufrufe in den 3 Stores (game, puzzle, reading)
+1. **Audio-Utility erstellen**: `src/lib/utils/audio.ts`
 
-### Aufwand: Mittel (30 Minuten)
+   ```typescript
+   type SoundName = 'correct' | 'error' | 'celebration' | 'click';
+   export function playSound(name: SoundName): void;
+   ```
+
+2. **Integration in Stores** (3 Dateien):
+   - `game.svelte.ts` → `playSound('correct')` bei richtigem Buchstaben
+   - `puzzle.svelte.ts` → `playSound('correct')` bei richtiger Position
+   - `reading.svelte.ts` → `playSound('correct')` bei richtigem Emoji
+   - Alle 3 → `playSound('celebration')` bei Wort-Abschluss
+   - Alle 3 → `playSound('error')` bei Fehler
 
 ---
 
@@ -124,7 +122,10 @@ src/
 │   │   └── words.json                  # Wort-Datenbank
 │   └── utils/
 │       ├── array.ts                    # shuffleArray()
+│       ├── audio.ts                    # playSound() (Phase 6)
 │       └── timeout.ts                  # withTimeout()
+├── static/
+│   └── sounds/                         # Audio-Dateien (Phase 6)
 └── app.css                             # Alle Styles
 ```
 
