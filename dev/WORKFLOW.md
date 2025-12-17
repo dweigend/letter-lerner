@@ -29,7 +29,7 @@ Vor der Implementierung:
 - Anforderungen klären
 - Betroffene Dateien identifizieren
 - Reihenfolge der Änderungen festlegen
-- Plan in `dev/PLAN.md` dokumentieren
+- Plan in `dev/ROADMAP.md` dokumentieren
 
 ### 4. Implement
 
@@ -77,7 +77,7 @@ Refactoring:
 Dokumentation aktualisieren:
 
 - `dev/UEBERGABE.md` - Aktueller Stand für nächste Session
-- `dev/PLAN.md` - Fortschritt markieren
+- `dev/ROADMAP.md` - Fortschritt markieren
 - `README.md` - Bei neuen Features/Commands
 
 ### 9. Git Commit

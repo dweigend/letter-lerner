@@ -23,10 +23,9 @@ CSS variables in `app.css`:
 - `jump-away` - Exit animation
 - `shake` - Error feedback
 
-**GSAP (minimal):**
+**canvas-confetti:**
 
-- `floatEmoji()` - Floating emoji
-- `triggerConfetti()` - Celebration confetti
+- `triggerConfetti()` - Celebration confetti burst
 
 Timing constants in `src/lib/config/animations.ts`.
 
@@ -45,12 +44,16 @@ src/lib/components/
 ├── menu/
 │   ├── LevelCard.svelte    # Level selection card
 │   └── LevelGrid.svelte    # Grid of level cards
-└── puzzle/
-    ├── DraggableLetter.svelte  # Draggable letter tile
-    ├── DropSlot.svelte         # Drop target with validation
-    ├── DropSlots.svelte        # Slots container + celebration
-    ├── LetterPool.svelte       # Pool of shuffled letters
-    └── PuzzleBoard.svelte      # Main puzzle board
+├── puzzle/
+│   ├── DraggableLetter.svelte  # Draggable letter tile
+│   ├── DropSlot.svelte         # Drop target with validation
+│   ├── DropSlots.svelte        # Slots container + celebration
+│   ├── LetterPool.svelte       # Pool of shuffled letters
+│   └── PuzzleBoard.svelte      # Main puzzle board
+└── reading/
+    ├── EmojiOption.svelte      # Clickable emoji button
+    ├── EmojiGrid.svelte        # Grid of emoji options + celebration
+    └── ReadingBoard.svelte     # Word display + emoji grid
 ```
 
 ## State Management
@@ -77,6 +80,16 @@ class PuzzleGame {
 }
 ```
 
+**Reading Store** (`src/lib/stores/reading.svelte.ts`):
+
+```typescript
+class ReadingGame {
+	options = $state<EmojiOption[]>([]);
+	selectedId = $state<string | null>(null);
+	shakeId = $state<string | null>(null);
+}
+```
+
 Context pattern for all stores:
 
 ```typescript
@@ -100,14 +113,15 @@ export function getGameContext(): Game {
 
 ## Key Files
 
-| File                              | Purpose                        |
-| --------------------------------- | ------------------------------ |
-| `src/app.css`                     | All styles + animation config  |
-| `src/lib/config/animations.ts`    | Timing constants               |
-| `src/lib/animations/confetti.ts`  | Celebration confetti           |
-| `src/lib/stores/game.svelte.ts`   | Buchstabieren state            |
-| `src/lib/stores/puzzle.svelte.ts` | Puzzle state + drag-drop logic |
-| `src/lib/stores/levels.ts`        | Level metadata                 |
-| `src/lib/utils/array.ts`          | shuffleArray utility           |
-| `src/lib/utils/timeout.ts`        | withTimeout utility            |
-| `src/lib/data/words.json`         | Word database                  |
+| File                               | Purpose                        |
+| ---------------------------------- | ------------------------------ |
+| `src/app.css`                      | All styles + animation config  |
+| `src/lib/config/animations.ts`     | Timing constants               |
+| `src/lib/animations/confetti.ts`   | Celebration confetti           |
+| `src/lib/stores/game.svelte.ts`    | Buchstabieren state            |
+| `src/lib/stores/puzzle.svelte.ts`  | Puzzle state + drag-drop logic |
+| `src/lib/stores/reading.svelte.ts` | Reading state + emoji logic    |
+| `src/lib/stores/levels.ts`         | Level metadata                 |
+| `src/lib/utils/array.ts`           | shuffleArray utility           |
+| `src/lib/utils/timeout.ts`         | withTimeout utility            |
+| `src/lib/data/words.json`          | Word database                  |

@@ -2,7 +2,7 @@
 
 ## Status: Phase 4 abgeschlossen ✅ | Phase 5-7 geplant
 
-**Datum**: 2025-12-16
+**Datum**: 2025-12-17
 **Branch**: `main`
 
 ## Abgeschlossene Phasen
@@ -141,3 +141,17 @@ src/
 
 - **Claude-Kontext**: `CLAUDE.md`
 - **Architektur**: `dev/ARCHITECTURE.md`
+- **Roadmap**: `dev/ROADMAP.md`
+
+---
+
+## Refactoring-Notizen
+
+Bei zukünftigen Änderungen berücksichtigen:
+
+| Item                | Beschreibung                                              |
+| ------------------- | --------------------------------------------------------- |
+| Animation-Timing    | `SHAKE: 500ms` → `400ms` (match CSS `--anim-shake`)       |
+| Unused Dependencies | `clsx`, `tailwind-merge`, `autoprefixer` entfernen        |
+| Types konsolidieren | `PuzzleLetter`, `EmojiOption` nach `types.ts` verschieben |
+| BaseGame-Klasse     | Gemeinsame Store-Logik extrahieren bei Level 4+           |
