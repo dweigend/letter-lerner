@@ -1,6 +1,6 @@
 # Übergabe: Letter-Lerner Multi-Level Feature
 
-## Status: Phase 4 abgeschlossen ✅ | Phase 5-7 geplant
+## Status: Phase 5 abgeschlossen ✅ | Phase 6-7 geplant
 
 **Datum**: 2025-12-17
 **Branch**: `main`
@@ -10,6 +10,7 @@
 - [x] **Phase 1+2**: Infrastruktur & Route-Umstrukturierung
 - [x] **Phase 3**: Buchstabenpuzzle (Drag-and-Drop)
 - [x] **Phase 4**: Lese-Level (Emoji-Auswahl)
+- [x] **Phase 5**: Wörter Randomisieren
 
 ## Level-Übersicht
 
@@ -23,19 +24,9 @@
 
 # Nächste Phasen
 
-## Phase 5: Wörter Randomisieren
+## Phase 5: Wörter Randomisieren ✅
 
-### Ziel
-
-Die Reihenfolge der Wörter soll bei jedem Spielstart zufällig sein - nicht immer dieselbe Reihenfolge.
-
-### Was zu tun ist
-
-- **Eine Datei ändern**: `src/routes/level/+layout.server.ts`
-- `shuffleArray()` auf die Wortliste anwenden
-- Utility existiert bereits in `$lib/utils/array.ts`
-
-### Aufwand: Klein (5 Minuten)
+Implementiert in `src/routes/level/+layout.server.ts` - Wörter werden bei jedem Seitenaufruf randomisiert.
 
 ---
 
