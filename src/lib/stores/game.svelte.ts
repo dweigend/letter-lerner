@@ -2,6 +2,7 @@ import { getContext, setContext } from 'svelte';
 import type { WordItem } from '$lib/types';
 import { ANIMATION_TIMINGS } from '$lib/config/animations';
 import { withTimeout } from '$lib/utils/timeout';
+import { playSound } from '$lib/utils/audio';
 
 const GAME_CONTEXT = Symbol('game');
 
@@ -58,6 +59,7 @@ export class Game {
 
 	startCelebration() {
 		this.celebrationPhase = true;
+		playSound('celebration');
 	}
 
 	endCelebration() {
@@ -82,9 +84,11 @@ export class Game {
 			this.input = newInput;
 			this.shakeIndex = null;
 			this.lastKeyCorrect = true;
+			playSound('click');
 		} else {
 			this.shakeIndex = firstEmptyIndex;
 			this.lastKeyCorrect = false;
+			playSound('error');
 			withTimeout(() => {
 				this.shakeIndex = null;
 			}, ANIMATION_TIMINGS.SHAKE);

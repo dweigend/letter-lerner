@@ -3,6 +3,7 @@ import type { WordItem } from '$lib/types';
 import { ANIMATION_TIMINGS } from '$lib/config/animations';
 import { withTimeout } from '$lib/utils/timeout';
 import { shuffleArray } from '$lib/utils/array';
+import { playSound } from '$lib/utils/audio';
 
 const PUZZLE_CONTEXT = Symbol('puzzle');
 
@@ -120,6 +121,7 @@ export class PuzzleGame {
 		if (letter.letter !== expectedLetter) {
 			// Wrong placement - shake
 			this.shakeSlotIndex = slotIndex;
+			playSound('error');
 			withTimeout(() => {
 				this.shakeSlotIndex = null;
 			}, ANIMATION_TIMINGS.SHAKE);
@@ -128,10 +130,12 @@ export class PuzzleGame {
 
 		// Correct! Place the letter
 		this.placeLetter(slotIndex, letter);
+		playSound('correct');
 	}
 
 	startCelebration() {
 		this.celebrationPhase = true;
+		playSound('celebration');
 	}
 
 	endCelebration() {

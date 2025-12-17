@@ -1,6 +1,6 @@
 # Übergabe: Letter-Lerner Multi-Level Feature
 
-## Status: Phase 5 abgeschlossen ✅ | Phase 6-7 geplant
+## Status: Phase 6 abgeschlossen ✅ | Phase 7 geplant
 
 **Datum**: 2025-12-17
 **Branch**: `main`
@@ -11,6 +11,7 @@
 - [x] **Phase 3**: Buchstabenpuzzle (Drag-and-Drop)
 - [x] **Phase 4**: Lese-Level (Emoji-Auswahl)
 - [x] **Phase 5**: Wörter Randomisieren
+- [x] **Phase 6**: Sound-System
 
 ## Level-Übersicht
 
@@ -30,35 +31,28 @@ Implementiert in `src/routes/level/+layout.server.ts` - Wörter werden bei jedem
 
 ---
 
-## Phase 6: Sound-System ✅ Ready
+## Phase 6: Sound-System ✅ Implementiert
 
-### Audio-Dateien vorhanden
+Audio-Feedback in allen 3 Levels implementiert.
 
-| Datei             | Zweck  | Wann gespielt             |
-| ----------------- | ------ | ------------------------- |
-| `correct.mp3`     | Erfolg | Richtiger Buchstabe/Emoji |
-| `error.mp3`       | Fehler | Falscher Buchstabe/Emoji  |
-| `celebration.mp3` | Feier  | Wort abgeschlossen        |
-| `click.mp3`       | Klick  | (optional) Button-Tap     |
-| `click_2.mp3`     | Klick  | (optional) Alternative    |
+### Audio-Dateien
 
-**Ablageort**: `static/sounds/` ✅
+| Datei             | Zweck  | Wann gespielt                           |
+| ----------------- | ------ | --------------------------------------- |
+| `click.mp3`       | Klick  | Buchstabieren: richtiger Buchstabe      |
+| `correct.mp3`     | Erfolg | Puzzle/Lesen: richtiger Buchstabe/Emoji |
+| `error.mp3`       | Fehler | Alle Levels: falscher Buchstabe/Emoji   |
+| `celebration.mp3` | Feier  | Alle Levels: Wort abgeschlossen         |
+| `click_2.mp3`     | Klick  | (optional) Alternative                  |
 
-### Implementierung
+**Ablageort**: `static/sounds/`
 
-1. **Audio-Utility erstellen**: `src/lib/utils/audio.ts`
+### Implementierte Dateien
 
-   ```typescript
-   type SoundName = 'correct' | 'error' | 'celebration' | 'click';
-   export function playSound(name: SoundName): void;
-   ```
-
-2. **Integration in Stores** (3 Dateien):
-   - `game.svelte.ts` → `playSound('correct')` bei richtigem Buchstaben
-   - `puzzle.svelte.ts` → `playSound('correct')` bei richtiger Position
-   - `reading.svelte.ts` → `playSound('correct')` bei richtigem Emoji
-   - Alle 3 → `playSound('celebration')` bei Wort-Abschluss
-   - Alle 3 → `playSound('error')` bei Fehler
+- `src/lib/utils/audio.ts` - Audio-Utility mit `playSound()`
+- `src/lib/stores/game.svelte.ts` - Sounds integriert
+- `src/lib/stores/puzzle.svelte.ts` - Sounds integriert
+- `src/lib/stores/reading.svelte.ts` - Sounds integriert
 
 ---
 
