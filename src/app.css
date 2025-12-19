@@ -443,58 +443,55 @@ body:has([data-menu-scene]) {
 	background-position: center bottom;
 }
 
-/* Einhorn mascot - behind counter */
+/* Einhorn mascot - centered BEHIND items, only head visible */
 [data-menu-mascot] {
 	position: absolute;
-	z-index: 1;
-	bottom: 10%;
-	left: 5%;
-	width: clamp(150px, 18vw, 320px);
+	z-index: 2;
+	bottom: 8%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: clamp(200px, 22vw, 360px);
 	aspect-ratio: 563 / 1276;
 	background-image: url('/images/menu/einhorn.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 }
 
-/* Wooden counter - full width at bottom */
+/* Wooden counter - full width, raised from bottom */
 [data-menu-counter] {
 	position: absolute;
 	z-index: 2;
-	bottom: 0;
+	bottom: 5%;
 	left: 0;
 	right: 0;
-	height: clamp(80px, 12vh, 180px);
+	height: clamp(100px, 15vh, 220px);
 	background-image: url('/images/menu/theke.png');
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 }
 
-/* Items container - centered above counter */
+/* Items container - centered above counter, IN FRONT of mascot */
 [data-menu-items] {
 	position: absolute;
-	z-index: 3;
-	bottom: clamp(50px, 8vh, 140px);
+	z-index: 4;
+	bottom: clamp(80px, 12vh, 200px);
 	left: 50%;
 	transform: translateX(-50%);
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
-	gap: clamp(1.5rem, 4vw, 5rem);
+	gap: clamp(2rem, 4vw, 5rem);
 }
 
 /* Level item - clickable image */
 [data-level-item] {
 	display: block;
 	cursor: pointer;
-	transition:
-		transform 0.2s ease-out,
-		filter 0.2s ease-out;
-	filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+	transition: transform 0.2s ease-out;
 }
 
 [data-level-item]:hover {
 	transform: scale(1.08) translateY(-8px);
-	filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.4));
 }
 
 [data-level-item]:active {
@@ -508,13 +505,12 @@ body:has([data-menu-scene]) {
 
 [data-level-item][data-disabled]:hover {
 	transform: none;
-	filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
 }
 
-/* Item images - responsive sizing */
+/* Item images - responsive sizing (40% larger) */
 [data-level-image] {
 	display: block;
-	width: clamp(120px, 18vw, 280px);
+	width: clamp(300px, 38vw, 580px);
 	height: auto;
 	pointer-events: none;
 }
