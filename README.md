@@ -6,9 +6,9 @@
 
 ## What is Letter-Lerner? ✨
 
-My daughter Annelie is learning to write. Instead of using an off-the-shelf app, I wanted to build something of our own - something we can grow together. That's how Letter-Lerner was born: A simple German spelling game where emojis appear and Annelie types or puzzles the words.
+My daughter Annelie is learning to write. To support her learning journey, I'm developing this simple spelling program that we'll grow together over time.
 
-**Important:** This game is designed to be played **together with parents**. Mom or Dad help find the letters on the keyboard - turning learning into a shared experience. 👨‍👩‍👧
+**Important:** This game is designed to be played **together with parents**, not alone. Parents help children find the letters on the keyboard and guide them through the learning process. 👨‍👩‍👧
 
 ### The Three Game Modes 🎮
 
