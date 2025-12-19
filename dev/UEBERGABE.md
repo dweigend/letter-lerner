@@ -1,25 +1,26 @@
 # Übergabe: Letter-Lerner Refactoring
 
-## Status: Refactoring Phase 1 erledigt
+## Status: Refactoring Phase 2 erledigt
 
 **Datum:** 2025-12-19
 **Branch:** `main`
 
 ---
 
-## Nächste Session: Phase 2 - Code-Hygiene
+## Nächste Session: Phase 3 - Store-Architektur Review
 
 **Workflow:**
 
 1. Lese `dev/ARCHITECTURE.md` (Point of Truth)
 2. Prüfe `git status`
-3. Führe Phase 2 aus `dev/REFACTORING-PLAN.md` durch
+3. Führe Phase 3 aus `dev/REFACTORING-PLAN.md` durch
 4. Git Checkpoint
 
 **Aufgaben:**
 
-- [ ] Type-Duplikation bereinigen (`src/lib/data.ts`)
-- [ ] Unused Dependencies entfernen (clsx, tailwind-merge, autoprefixer)
+- [ ] Store-Duplikation analysieren
+- [ ] Entscheidung dokumentieren (KEINE BaseClass - Lesbarkeit > DRY)
+- [ ] Types-Konsolidierung prüfen (lokal belassen)
 - [ ] Diese Datei nach Abschluss aktualisieren
 
 ---
@@ -30,11 +31,11 @@ Siehe `dev/REFACTORING-PLAN.md` für den vollständigen Plan.
 
 **3 Sessions geplant:**
 
-| Session | Fokus                      | Status     |
-| ------- | -------------------------- | ---------- |
-| 1       | Docs als Point of Truth    | Erledigt   |
-| 2       | Code-Hygiene (Types, Deps) | **NEXT**   |
-| 3       | Store-Architektur Review   | Ausstehend |
+| Session | Fokus                      | Status   |
+| ------- | -------------------------- | -------- |
+| 1       | Docs als Point of Truth    | Erledigt |
+| 2       | Code-Hygiene (Types, Deps) | Erledigt |
+| 3       | Store-Architektur Review   | **NEXT** |
 
 ---
 
