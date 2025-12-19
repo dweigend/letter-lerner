@@ -4,29 +4,33 @@ export interface Level {
 	emoji: string;
 	route: string;
 	description: string;
+	image: string;
 	disabled?: boolean;
 }
 
 export const LEVELS: Level[] = [
 	{
-		id: 'buchstabieren',
-		name: 'Buchstabieren',
-		emoji: '✏️',
-		route: '/level/buchstabieren',
-		description: 'Tippe die Buchstaben'
-	},
-	{
 		id: 'puzzle',
 		name: 'Buchstabenpuzzle',
 		emoji: '🧩',
 		route: '/level/puzzle',
-		description: 'Ziehe die Buchstaben'
+		description: 'Ziehe die Buchstaben',
+		image: '/images/menu/puzzle.png'
 	},
 	{
 		id: 'lesen',
 		name: 'Lesen',
 		emoji: '📖',
 		route: '/level/lesen',
-		description: 'Finde das richtige Bild'
+		description: 'Finde das richtige Bild',
+		image: '/images/menu/lesen.png'
+	},
+	{
+		id: 'buchstabieren',
+		name: 'Buchstabieren',
+		emoji: '✏️',
+		route: '/level/buchstabieren',
+		description: 'Tippe die Buchstaben',
+		image: '/images/menu/buchstabieren.png'
 	}
 ];
