@@ -1,4 +1,4 @@
-import { getContext, setContext } from 'svelte';
+import { setContext } from 'svelte';
 import type { WordItem } from '$lib/types';
 import { ANIMATION_TIMINGS } from '$lib/config/animations';
 import { withTimeout } from '$lib/utils/timeout';
@@ -117,8 +117,4 @@ export function createReadingGame(words: WordItem[]) {
 
 export function setReadingContext(game: ReadingGame) {
 	setContext(READING_CONTEXT, game);
-}
-
-export function getReadingContext(): ReadingGame {
-	return getContext<ReadingGame>(READING_CONTEXT);
 }
