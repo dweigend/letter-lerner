@@ -1,137 +1,79 @@
-# Letter-Lerner
+# Letter-Lerner 🦄
 
-A German spelling learning app for my daughter Annelie, built with SvelteKit 2 and Svelte 5.
+<p align="center">
+  <img src="docs/images/hero.png" alt="Letter-Lerner" width="600">
+</p>
 
-## About This Project
+## What is Letter-Lerner? ✨
 
-My daughter Annelie is learning to write. To support her learning journey, I'm developing this simple spelling program that we'll grow together over time.
+My daughter Annelie is learning to write. Instead of using an off-the-shelf app, I wanted to build something of our own - something we can grow together. That's how Letter-Lerner was born: A simple German spelling game where emojis appear and Annelie types or puzzles the words.
 
-**Important:** This game is designed to be played **together with parents**, not alone. Parents help children find the letters on the keyboard and guide them through the learning process.
+**Important:** This game is designed to be played **together with parents**. Mom or Dad help find the letters on the keyboard - turning learning into a shared experience. 👨‍👩‍👧
 
-## Game Levels
+### The Three Game Modes 🎮
 
-| Level            | Route                  | Description                       |
-| ---------------- | ---------------------- | --------------------------------- |
-| Buchstabieren    | `/level/buchstabieren` | Type letters on keyboard          |
-| Buchstabenpuzzle | `/level/puzzle`        | Drag letters to correct positions |
-| Lesen            | `/level/lesen`         | Match word to emoji (coming soon) |
+| Level                   | Description                                                 |
+| ----------------------- | ----------------------------------------------------------- |
+| 🔤 **Buchstabieren**    | An emoji appears, the child types the word letter by letter |
+| 🧩 **Buchstabenpuzzle** | Drag & drop letters into the correct order                  |
+| 📖 **Lesen**            | The word appears, the child picks the matching emoji        |
 
-## Features
-
-- **Start Menu** - Level selection with visual cards
-- **Emoji-based learning** - An emoji appears, child interacts with letters
-- **QWERTZ keyboard** - On-screen + physical keyboard support
-- **Drag-and-Drop** - Touch-friendly puzzle mode
-- **Visual feedback** - Green (correct) / Red (wrong) animations
-- **Celebration** - Bouncing letters and confetti on success
-- **Admin panel** - Manage word list at `/admin`
-
-## Quick Start
+## Installation 🚀
 
 ```bash
+# Clone the repository
+git clone https://github.com/dweigend/letter-lerner.git
+cd letter-lerner
+
 # Install dependencies
 bun install
 
 # Start development server
 bun dev
-
-# Open http://localhost:5173
 ```
 
-## Commands
+Then open in browser: [http://localhost:5173](http://localhost:5173)
 
-| Command      | Description       |
-| ------------ | ----------------- |
-| `bun dev`    | Start dev server  |
-| `bun build`  | Production build  |
-| `bun check`  | TypeScript check  |
-| `bun lint`   | Prettier + ESLint |
-| `bun format` | Auto-format code  |
+## Tech Stack 🛠️
 
-## Tech Stack
+- **[SvelteKit 2](https://kit.svelte.dev/)** + **[Svelte 5](https://svelte.dev/)** - Frontend framework with runes
+- **[Tailwind CSS 4](https://tailwindcss.com/)** - Styling
+- **[bits-ui](https://bits-ui.com/)** - Headless UI components
+- **[@thisux/sveltednd](https://github.com/thisuxhq/sveltednd)** - Drag & drop for the puzzle
+- **[canvas-confetti](https://github.com/catdad/canvas-confetti)** - Confetti fireworks on success 🎉
 
-- **Framework:** SvelteKit 2 + Svelte 5 (runes)
-- **Styling:** Tailwind CSS 4 + bits-ui (headless components)
-- **Animations:** CSS-first animations
-- **Effects:** canvas-confetti
-- **Drag-Drop:** @thisux/sveltednd
-
-## Project Structure
+## Project Structure 📁
 
 ```
-src/
-├── app.css                    # All styles + animation config
-├── lib/
-│   ├── animations/            # Celebration confetti
-│   ├── components/
-│   │   ├── game/              # GameBoard, LetterSlot, WordSlots
-│   │   ├── keyboard/          # Keyboard, KeyButton
-│   │   ├── menu/              # LevelCard, LevelGrid
-│   │   └── puzzle/            # DraggableLetter, DropSlot, etc.
-│   ├── config/                # Animation timings
-│   ├── stores/                # Game state (Svelte 5 runes)
-│   └── utils/                 # Shared utilities
-└── routes/
-    ├── +page.svelte           # Start menu
-    ├── level/
-    │   ├── buchstabieren/     # Spelling game
-    │   └── puzzle/            # Drag-drop puzzle
-    └── admin/                 # Word management
+letter-lerner/
+├── src/
+│   ├── routes/
+│   │   ├── +page.svelte              # 🏠 Start menu
+│   │   └── level/
+│   │       ├── buchstabieren/        # 🔤 Spelling level
+│   │       ├── puzzle/               # 🧩 Puzzle level
+│   │       └── lesen/                # 📖 Reading level
+│   ├── lib/
+│   │   ├── components/               # UI components
+│   │   ├── stores/                   # Game state (Svelte 5 runes)
+│   │   └── data/words.json           # 📝 Word list
+│   └── app.css                       # 🎨 All styles
+├── dev/                              # 📚 Developer documentation
+│   ├── ARCHITECTURE.md               # Technical details
+│   └── ROADMAP.md                    # Planned features
+└── static/sounds/                    # 🔊 Audio files
 ```
 
-## Animation Configuration
+## Development 💻
 
-All animation parameters are configurable in `app.css`:
+| Command     | Description              |
+| ----------- | ------------------------ |
+| `bun dev`   | Start development server |
+| `bun build` | Production build         |
+| `bun check` | TypeScript check         |
+| `bun lint`  | Format code              |
 
-```css
-:root {
-	--anim-bounce: 1.5s;
-	--anim-exit: 0.6s;
-	--bounce-height-max: -50px;
-	--color-success: #22c55e;
-	--color-error: #ef4444;
-}
-```
-
-## Routes
-
-- `/` - Start menu with level selection
-- `/level/buchstabieren` - Type letters to spell words
-- `/level/puzzle` - Drag letters to correct positions
-- `/admin` - Add/remove words from the word list
-
-## Philosophy
-
-This project prioritizes:
-
-- **Simplicity** - Clean, distraction-free interface for young learners
-- **Parental Involvement** - Designed for parent-child interaction
-- **Gradual Growth** - Features expand as Annelie's skills develop
-- **Joy of Learning** - Celebrations and positive feedback at every step
-
-## Development
-
-Built with modern web technologies and best practices:
-
-- CSS-first animations for performance
-- Centralized configuration for easy tuning
-- Type-safe with TypeScript
-- Component-driven architecture with bits-ui
-
-## Roadmap
-
-The app is intentionally kept simple now, but I plan to continuously expand it with:
-
-- **AI & Voice Output** - Spoken letter and word assistance
-- **Automatic Spelling Help** - Smart guidance for difficult words
-- **Targeted Support** - Adaptive help based on learning progress
-- **Progress Tracking** - Automatic monitoring of learning achievements
-- **Keyboard Orientation** - Mini-levels to improve keyboard familiarity
-- **Sentence Writing** - Progress from words to simple sentences
-- **Listening & Writing** - Audio-based spelling exercises
-- **Reading Practice** - Building reading comprehension skills
-
-## License
+## License 📄
 
 MIT
 
