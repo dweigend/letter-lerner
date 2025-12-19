@@ -2,7 +2,7 @@
 
 Status der Entwicklungsphasen für Letter-Lerner.
 
-## Abgeschlossen
+## Abgeschlossen ✅
 
 ### Phase 1-2: Infrastruktur & Routes
 
@@ -22,47 +22,32 @@ Status der Entwicklungsphasen für Letter-Lerner.
 - ReadingGame Store mit Zufalls-Emojis
 - Komponenten: EmojiOption, EmojiGrid, ReadingBoard
 
----
+### Phase 5: Wort-Randomisierung
 
-## Aktuell: Phase 5 - Wort-Randomisierung
+- Wörter bei jedem Spielstart zufällig anordnen
+- `shuffleArray()` in `+layout.server.ts`
 
-**Ziel**: Wörter bei jedem Spielstart zufällig anordnen.
+### Phase 6: Sound-System
 
-**Änderung**:
+- Audio-Feedback in allen 3 Levels
+- `playSound()` Utility
+- Sounds: click, correct, error, celebration
 
-```typescript
-// src/routes/level/+layout.server.ts
-import { shuffleArray } from '$lib/utils/array';
+### Phase 7: Neues Startmenü
 
-export const load = async () => {
-	const words = await loadWords();
-	return { words: shuffleArray(words) };
-};
-```
-
-**Aufwand**: ~5 Minuten
+- Bildbasiertes Menü mit 3D-Assets
+- Einhorn-Maskottchen, Holztheke, Level-Objekte
+- CSS-Hover-Effekte
+- Komponenten: MenuScene, LevelItem
 
 ---
 
 ## Geplant
 
-### Phase 6: Sound-System
+### Phase 8: Hover-Animationen (optional)
 
-**Benötigte Sounds** (von David bereitgestellt):
-| Datei | Zweck |
-|-------|-------|
-| `static/sounds/correct.mp3` | Richtiger Buchstabe/Emoji |
-| `static/sounds/error.mp3` | Falscher Buchstabe/Emoji |
-| `static/sounds/celebration.mp3` | Wort abgeschlossen |
-
-**Implementierung**:
-
-1. Audio-Utility in `src/lib/utils/audio.ts`
-2. `playSound()` Aufrufe in den 3 Stores
-
-### Phase 7: Neues Startmenü
-
-Design-Mockup in Arbeit. Details folgen.
+- Video-basierte Hover-Effekte für Level-Items
+- Animiertes Einhorn
 
 ---
 

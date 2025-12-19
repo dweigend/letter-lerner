@@ -1,8 +1,8 @@
 # Übergabe: Letter-Lerner Multi-Level Feature
 
-## Status: Phase 6 abgeschlossen ✅ | Phase 7 geplant
+## Status: Phase 7 abgeschlossen ✅
 
-**Datum**: 2025-12-17
+**Datum**: 2025-12-19
 **Branch**: `main`
 
 ## Abgeschlossene Phasen
@@ -12,6 +12,7 @@
 - [x] **Phase 4**: Lese-Level (Emoji-Auswahl)
 - [x] **Phase 5**: Wörter Randomisieren
 - [x] **Phase 6**: Sound-System
+- [x] **Phase 7**: Neues Startmenü (bildbasiert)
 
 ## Level-Übersicht
 
@@ -56,23 +57,46 @@ Audio-Feedback in allen 3 Levels implementiert.
 
 ---
 
-## Phase 7: Neues Startmenü
+## Phase 7: Neues Startmenü ✅ Implementiert
 
-### Status: Mockup in Arbeit
+Bildbasiertes Startmenü mit 3D-Assets (Einhorn-Maskottchen, Holztheke, Level-Objekte).
 
-David entwickelt gerade ein Design-Mockup. Details werden ergänzt wenn das Mockup fertig ist.
+### Layering-Konzept
 
-### Aktuelle Menü-Struktur (für Referenz)
+```
+z-index: 0  │ Background (Klassenzimmer)
+z-index: 2  │ Einhorn (mittig, hinter Items)
+z-index: 2  │ Theke (volle Breite)
+z-index: 4  │ Level-Items (klickbar)
+```
 
-| Datei                                      | Zweck                               |
-| ------------------------------------------ | ----------------------------------- |
-| `src/routes/+page.svelte`                  | Startmenü-Route                     |
-| `src/lib/components/menu/LevelGrid.svelte` | Level-Karten Container              |
-| `src/lib/components/menu/LevelCard.svelte` | Einzelne Level-Karte                |
-| `src/lib/stores/levels.ts`                 | Level-Metadaten                     |
-| `src/app.css`                              | Styling (data-menu-_, data-level-_) |
+### Assets
 
-### Aufwand: Abhängig vom Design
+| Datei               | Dimension | Zweck                     |
+| ------------------- | --------- | ------------------------- |
+| `background.png`    | 2784×1536 | Klassenzimmer-Hintergrund |
+| `einhorn.png`       | 563×1276  | Maskottchen               |
+| `theke.png`         | 2784×271  | Holztheke                 |
+| `puzzle.png`        | 721×491   | Level: Puzzle             |
+| `lesen.png`         | 760×502   | Level: Lesen              |
+| `buchstabieren.png` | 775×492   | Level: Buchstabieren      |
+
+**Ablageort**: `static/images/menu/`
+
+### Implementierte Dateien
+
+| Datei                                      | Zweck                     |
+| ------------------------------------------ | ------------------------- |
+| `src/routes/+page.svelte`                  | Lädt MenuScene            |
+| `src/lib/components/menu/MenuScene.svelte` | Szenen-Container (Layer)  |
+| `src/lib/components/menu/LevelItem.svelte` | Klickbares Level-Bild     |
+| `src/lib/stores/levels.ts`                 | Level-Metadaten + `image` |
+| `src/app.css`                              | Styles (`[data-menu-*]`)  |
+
+### Hover-Effekte
+
+- CSS-only: `scale(1.08) translateY(-8px)`
+- Video-basierte Hover geplant für später
 
 ---
 
@@ -108,7 +132,7 @@ src/
 │   │   ├── puzzle.svelte.ts            # Puzzle-Logic
 │   │   └── reading.svelte.ts           # Lesen-Logic
 │   ├── components/
-│   │   ├── menu/                       # Menü-Komponenten
+│   │   ├── menu/                       # MenuScene, LevelItem (Phase 7)
 │   │   ├── game/                       # Buchstabieren-Komponenten
 │   │   ├── puzzle/                     # Puzzle-Komponenten
 │   │   └── reading/                    # Lesen-Komponenten
@@ -119,7 +143,8 @@ src/
 │       ├── audio.ts                    # playSound() (Phase 6)
 │       └── timeout.ts                  # withTimeout()
 ├── static/
-│   └── sounds/                         # Audio-Dateien (Phase 6)
+│   ├── sounds/                         # Audio-Dateien (Phase 6)
+│   └── images/menu/                    # Menü-Assets (Phase 7)
 └── app.css                             # Alle Styles
 ```
 
