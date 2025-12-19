@@ -74,10 +74,9 @@ Animations are CSS-based with configurable variables in `app.css`:
 - `jump-away` - Exit animation
 - `shake` - Error feedback
 
-**GSAP (minimal):**
+**JavaScript:**
 
-- `floatEmoji()` - Floating emoji
-- `triggerConfetti()` - Celebration confetti
+- `triggerConfetti()` - Celebration confetti (canvas-confetti)
 
 ### Component Structure
 
@@ -118,7 +117,7 @@ setGameContext() / getGameContext(); // Context API
 | File                                           | Purpose                       |
 | ---------------------------------------------- | ----------------------------- |
 | `src/app.css`                                  | All styles + animation config |
-| `src/lib/animations/gsap.ts`                   | floatEmoji + confetti only    |
+| `src/lib/animations/confetti.ts`               | Celebration confetti          |
 | `src/lib/components/game/WordSlots.svelte`     | Celebration timing            |
 | `src/lib/components/keyboard/KeyButton.svelte` | Key feedback                  |
 
@@ -133,7 +132,6 @@ setGameContext() / getGameContext(); // Context API
 - TypeScript
 - Tailwind CSS 4
 - bits-ui (headless components)
-- GSAP (minimal)
 - canvas-confetti
 
 ## Boundaries
@@ -147,5 +145,4 @@ setGameContext() / getGameContext(); // Context API
 **Don't:**
 
 - Add inline Tailwind classes to components
-- Create new GSAP animations (use CSS)
 - Modify game words (German content is intentional)

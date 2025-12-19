@@ -1,10 +1,11 @@
-type SoundName = 'correct' | 'error' | 'celebration' | 'click';
+type SoundName = 'correct' | 'error' | 'celebration' | 'click' | 'click_2';
 
 const sounds: Record<SoundName, HTMLAudioElement | null> = {
 	correct: null,
 	error: null,
 	celebration: null,
-	click: null
+	click: null,
+	click_2: null
 };
 
 export function playSound(name: SoundName): void {
