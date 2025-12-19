@@ -48,16 +48,3 @@ Status der Entwicklungsphasen für Letter-Lerner.
 
 - Video-basierte Hover-Effekte für Level-Items
 - Animiertes Einhorn
-
----
-
-## Refactoring-Notizen
-
-Bei zukünftigen Änderungen diese Optimierungen berücksichtigen:
-
-| Item                | Beschreibung                                 | Wann             |
-| ------------------- | -------------------------------------------- | ---------------- |
-| Animation-Timing    | SHAKE 500ms → 400ms (match CSS)              | Bei nächstem Bug |
-| Unused Dependencies | clsx, tailwind-merge, autoprefixer entfernen | Bei Phase 5      |
-| Types konsolidieren | PuzzleLetter, EmojiOption nach types.ts      | Bei neuem Level  |
-| BaseGame-Klasse     | Gemeinsame Store-Logik extrahieren           | Bei Level 4+     |

@@ -42,8 +42,8 @@ src/lib/components/
 │   ├── Keyboard.svelte     # QWERTZ keyboard
 │   └── KeyButton.svelte    # Key with feedback
 ├── menu/
-│   ├── LevelCard.svelte    # Level selection card
-│   └── LevelGrid.svelte    # Grid of level cards
+│   ├── MenuScene.svelte    # Hauptszene mit Hintergrund
+│   └── LevelItem.svelte    # Klickbares Level-Objekt
 ├── puzzle/
 │   ├── DraggableLetter.svelte  # Draggable letter tile
 │   ├── DropSlot.svelte         # Drop target with validation

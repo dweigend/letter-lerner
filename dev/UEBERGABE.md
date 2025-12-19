@@ -1,25 +1,25 @@
 # Übergabe: Letter-Lerner Refactoring
 
-## Status: Refactoring Phase 1 vorbereitet
+## Status: Refactoring Phase 1 erledigt
 
 **Datum:** 2025-12-19
 **Branch:** `main`
 
 ---
 
-## Nächste Session: Phase 1 - Dokumentation
+## Nächste Session: Phase 2 - Code-Hygiene
 
 **Workflow:**
 
 1. Lese `dev/ARCHITECTURE.md` (Point of Truth)
 2. Prüfe `git status`
-3. Führe Phase 1 aus `dev/REFACTORING-PLAN.md` durch
+3. Führe Phase 2 aus `dev/REFACTORING-PLAN.md` durch
 4. Git Checkpoint
 
 **Aufgaben:**
 
-- [ ] `dev/ARCHITECTURE.md` aktualisieren (menu/ Komponenten korrigieren)
-- [ ] `dev/ROADMAP.md` aufräumen (veraltete Notizen entfernen)
+- [ ] Type-Duplikation bereinigen (`src/lib/data.ts`)
+- [ ] Unused Dependencies entfernen (clsx, tailwind-merge, autoprefixer)
 - [ ] Diese Datei nach Abschluss aktualisieren
 
 ---
@@ -32,8 +32,8 @@ Siehe `dev/REFACTORING-PLAN.md` für den vollständigen Plan.
 
 | Session | Fokus                      | Status     |
 | ------- | -------------------------- | ---------- |
-| 1       | Docs als Point of Truth    | **NEXT**   |
-| 2       | Code-Hygiene (Types, Deps) | Ausstehend |
+| 1       | Docs als Point of Truth    | Erledigt   |
+| 2       | Code-Hygiene (Types, Deps) | **NEXT**   |
 | 3       | Store-Architektur Review   | Ausstehend |
 
 ---
