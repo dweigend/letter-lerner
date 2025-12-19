@@ -418,6 +418,123 @@ body {
 }
 
 /* ===========================================
+   MENU SCENE (Phase 7 - Image-based)
+   =========================================== */
+
+/* Full viewport scene container */
+[data-menu-scene] {
+	position: fixed;
+	inset: 0;
+	overflow: hidden;
+}
+
+/* Prevent body scroll on menu */
+body:has([data-menu-scene]) {
+	overflow: hidden;
+}
+
+/* Background - full cover */
+[data-menu-background] {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background-image: url('/images/menu/background.png');
+	background-size: cover;
+	background-position: center bottom;
+}
+
+/* Einhorn mascot - behind counter */
+[data-menu-mascot] {
+	position: absolute;
+	z-index: 1;
+	bottom: 10%;
+	left: 5%;
+	width: clamp(150px, 18vw, 320px);
+	aspect-ratio: 563 / 1276;
+	background-image: url('/images/menu/einhorn.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+/* Wooden counter - full width at bottom */
+[data-menu-counter] {
+	position: absolute;
+	z-index: 2;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: clamp(80px, 12vh, 180px);
+	background-image: url('/images/menu/theke.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+/* Items container - centered above counter */
+[data-menu-items] {
+	position: absolute;
+	z-index: 3;
+	bottom: clamp(50px, 8vh, 140px);
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	gap: clamp(1.5rem, 4vw, 5rem);
+}
+
+/* Level item - clickable image */
+[data-level-item] {
+	display: block;
+	cursor: pointer;
+	transition:
+		transform 0.2s ease-out,
+		filter 0.2s ease-out;
+	filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+}
+
+[data-level-item]:hover {
+	transform: scale(1.08) translateY(-8px);
+	filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.4));
+}
+
+[data-level-item]:active {
+	transform: scale(1.02);
+}
+
+[data-level-item][data-disabled] {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+[data-level-item][data-disabled]:hover {
+	transform: none;
+	filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+}
+
+/* Item images - responsive sizing */
+[data-level-image] {
+	display: block;
+	width: clamp(120px, 18vw, 280px);
+	height: auto;
+	pointer-events: none;
+}
+
+/* Smaller screens */
+@media (max-width: 768px) {
+	[data-menu-items] {
+		gap: 1rem;
+	}
+
+	[data-level-image] {
+		width: clamp(90px, 25vw, 160px);
+	}
+
+	[data-menu-mascot] {
+		width: clamp(100px, 22vw, 180px);
+	}
+}
+
+/* ===========================================
    LEVEL NAVIGATION
    =========================================== */
 
